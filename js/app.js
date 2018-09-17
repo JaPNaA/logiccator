@@ -1,0 +1,90 @@
+class App {
+    constructor() {
+        /** 
+         * Element canvas#c
+         * @type {HTMLCanvasElement}
+         */
+        // @ts-ignore
+        this.canvas = document.getElementById("c");
+        
+        /** 
+         * 2D rendering context of this.canvas
+         * @type {CanvasRenderingContext2D} 
+         */
+        this.X = this.canvas.getContext("2d");
+
+        /**
+         * Checked every time render is called, this will 
+         * cause the canvas to update only when required
+         * @type {Boolean}
+         */
+        this.shouldRender = true;
+
+        /**
+         * Checked every time render is called, this will
+         * force the canvas to update if there's an 
+         * animation running
+         * @type {Boolean}
+         */
+        this.animating = false;
+
+
+        this.setup();
+    }
+
+    setup() {
+        // register events
+        // -----------------------------------------------------------------------------
+        addEventListener("resize", this.resizeHandler);
+
+        // call inital functions
+        // -----------------------------------------------------------------------------
+        this.resizeHandler();
+        this._renderLoop();
+    }
+
+    /**
+     * Clears and draws on the canvas
+     */
+    render() {
+        if (!this.shouldRender && !this.animating) return;
+        this.shouldRender = false;
+
+        /**
+         * this.X alias
+         */
+        const X = this.X;
+
+        // clear canvas
+        X.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // draw
+        X.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        X.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    /**
+     * Wrapper around this.render(), which calls itself 
+     * to prevent memory leaks
+     */
+    _renderLoop() {
+        const _renderBound = _render.bind(this);
+
+        function _render() {
+            this.render();
+            requestAnimationFrame(_renderBound);
+        }
+
+        _renderBound();
+    }
+
+    /**
+     * Resizes the canvas (#c) to the max
+     */
+    resizeHandler() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+}
+
+export {App};
