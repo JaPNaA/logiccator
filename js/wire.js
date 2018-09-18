@@ -1,10 +1,15 @@
 import { LogicGate } from "./logicGate.js";
+import { World } from "./world.js";
+import { Thing } from "./thing.js";
 
-class Wire {
+class Wire extends Thing{
     /**
      * Input constructor
+     * @param {World} world parent world
      */
-    constructor() {
+    constructor(world) {
+        super(world);
+
         /**
          * input logic gate
          * @type {LogicGate}
@@ -60,7 +65,7 @@ class Wire {
 
     /**
      * Gets the state of the input
-     * @return {Boolean|Number} state of input
+     * @return {Number} state of input
      */
     getState() {
         return this.gateIn.outputs[this.gateInIndex];
@@ -90,6 +95,13 @@ class Wire {
         }
 
         this.valid = valid;
+    }
+
+    /**
+     * Updates all children recursively
+     */
+    update() {
+        this.gateIn.update();
     }
 }
 
