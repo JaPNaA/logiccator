@@ -1,3 +1,6 @@
 import { App } from "./app.js";
 
-console.log(App);
+const app = new App();
+
+// @ts-ignore this is for development purposes
+self.app = app;

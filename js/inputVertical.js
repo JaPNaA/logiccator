@@ -1,0 +1,2 @@
+class InputVertical {}
+export {InputVertical};

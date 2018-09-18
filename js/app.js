@@ -1,3 +1,5 @@
+import { World } from "./world.js";
+
 class App {
     constructor() {
         /** 
@@ -27,6 +29,13 @@ class App {
          * @type {Boolean}
          */
         this.animating = false;
+
+        /**
+         * The world that contains all of the gates, inputs,
+         * outputs, and comments.
+         * @type {World}
+         */
+        this.world = new World(this);
 
 
         this.setup();
@@ -59,21 +68,22 @@ class App {
         X.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // draw
-        X.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-        X.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.world.draw();
+        // X.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        // X.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     /**
      * Wrapper around this.render(), which calls itself 
-     * to prevent memory leaks
+     * to prevent memory leaks (hopefully)
      */
     _renderLoop() {
-        const _renderBound = _render.bind(this);
-
         function _render() {
             this.render();
             requestAnimationFrame(_renderBound);
         }
+
+        const _renderBound = _render.bind(this);
 
         _renderBound();
     }
