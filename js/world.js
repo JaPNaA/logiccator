@@ -26,7 +26,7 @@ class World {
         const wire0 = new Wire(this);
         const wire1 = new Wire(this);
         const cons0 = new Constant1(this, 150, 50);
-        const cons1 = new Constant0(this, 150, 50);
+        const cons1 = new Constant0(this, 150, 150);
         wire0.setIn(cons0, 0);
         wire1.setIn(cons1, 0);
         gate.attachWire(wire0, 0);

@@ -2,7 +2,7 @@ import { LogicGate } from "./logicGate.js";
 import { World } from "./world.js";
 import { Thing } from "./thing.js";
 
-class Wire extends Thing{
+class Wire extends Thing {
     /**
      * Input constructor
      * @param {World} world parent world
@@ -102,6 +102,19 @@ class Wire extends Thing{
      */
     update() {
         this.gateIn.update();
+    }
+
+    /**
+     * draws the wire
+     * @param {CanvasRenderingContext2D} X rendering context
+     */
+    draw(X) {
+        X.beginPath();
+        X.moveTo(this.gateIn.x, this.gateIn.y);
+        X.lineTo(this.gateOut.x, this.gateOut.y);
+        X.lineWidth = 2;
+        X.strokeStyle = "#000";
+        X.stroke();
     }
 }
 
