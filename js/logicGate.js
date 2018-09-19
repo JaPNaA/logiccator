@@ -83,6 +83,8 @@ class LogicGate extends Thing {
     }
 }
 
+export { LogicGate };
+
 class Constant1 extends LogicGate {
     /**
      * Constant constructor
@@ -106,6 +108,8 @@ class Constant1 extends LogicGate {
     }
 }
 
+export { Constant1 };
+
 class Constant0 extends LogicGate {
     /**
      * Constant constructor
@@ -128,6 +132,8 @@ class Constant0 extends LogicGate {
         this.outputs[0] = 0;
     }
 }
+
+export { Constant0 };
 
 class AndGate extends LogicGate {
     /**
@@ -155,6 +161,8 @@ class AndGate extends LogicGate {
     }
 }
 
+export { AndGate };
+
 class OrGate extends LogicGate {
     /**
      * AndGate constructor
@@ -181,4 +189,143 @@ class OrGate extends LogicGate {
     }
 }
 
-export {LogicGate, Constant1, Constant0, AndGate, OrGate};
+export { OrGate };
+
+class XorGate extends LogicGate {
+    /**
+     * AndGate constructor
+     * @param {World} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+
+        this.inputLength = 2;
+        this.outputLength = 0;
+    }
+
+    calc() {
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        let a = this.inputWires[0].getState(),
+            b = this.inputWires[1].getState();
+
+        this.outputs[0] = a ^ b;
+    }
+}
+
+export { XorGate };
+
+class NotGate extends LogicGate {
+    /**
+     * AndGate constructor
+     * @param {World} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+
+        this.inputLength = 1;
+        this.outputLength = 0;
+    }
+
+    calc() {
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        let a = this.inputWires[0].getState();
+
+        this.outputs[0] = ~a;
+    }
+}
+
+export { NotGate };
+
+class NandGate extends LogicGate {
+    /**
+     * AndGate constructor
+     * @param {World} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+
+        this.inputLength = 2;
+        this.outputLength = 0;
+    }
+
+    calc() {
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        let a = this.inputWires[0].getState(),
+            b = this.inputWires[1].getState();
+
+        this.outputs[0] = ~(a & b);
+    }
+}
+
+export { NandGate };
+
+class NorGate extends LogicGate {
+    /**
+     * AndGate constructor
+     * @param {World} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+
+        this.inputLength = 2;
+        this.outputLength = 0;
+    }
+
+    calc() {
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        let a = this.inputWires[0].getState(),
+            b = this.inputWires[1].getState();
+
+        this.outputs[0] = ~(a | b);
+    }
+}
+
+export { NorGate };
+
+class NxorGate extends LogicGate {
+    /**
+     * AndGate constructor
+     * @param {World} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+
+        this.inputLength = 2;
+        this.outputLength = 0;
+    }
+
+    calc() {
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        let a = this.inputWires[0].getState(),
+            b = this.inputWires[1].getState();
+
+        this.outputs[0] = ~(a ^ b);
+    }
+}
+
+export { NxorGate };
