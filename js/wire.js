@@ -1,4 +1,4 @@
-import { LogicGate } from "./logicGate.js";
+import { Abstract } from "./logicGate.js";
 import { World } from "./world.js";
 import { Thing } from "./thing.js";
 
@@ -12,7 +12,7 @@ class Wire extends Thing {
 
         /**
          * input logic gate
-         * @type {LogicGate}
+         * @type {Abstract}
          */
         this.gateIn = null;
 
@@ -24,7 +24,7 @@ class Wire extends Thing {
 
         /**
          * output logic gate
-         * @type {LogicGate}
+         * @type {Abstract}
          */
         this.gateOut = null;
 
@@ -43,7 +43,7 @@ class Wire extends Thing {
 
     /**
      * Set input gate
-     * @param {LogicGate} gate input gate
+     * @param {Abstract} gate input gate
      * @param {Number} index index of input of gate
      */
     setIn(gate, index) {
@@ -54,7 +54,7 @@ class Wire extends Thing {
 
     /**
      * Set output gate
-     * @param {LogicGate} gate output gate
+     * @param {Abstract} gate output gate
      * @param {Number} index index of output of gate
      */
     setOut(gate, index) {

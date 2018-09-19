@@ -3,7 +3,7 @@ import { World } from "./world.js";
 import { InputVertical } from "./inputVertical.js";
 import { Wire } from "./wire.js";
 
-class LogicGate extends Thing {
+class Abstract extends Thing {
     /**
      * LogicGate constructor
      * @param {World} parent parent world
@@ -81,11 +81,32 @@ class LogicGate extends Thing {
     calc() {
         throw new Error("Cannot calc using abstract LogicGate.calc()");
     }
+
+    /**
+     * Parses the outputs of this.ouputs into booleans
+     * @return {Boolean[]} state of outputs
+     */
+    getState() {
+        /**
+         * parsed outputs of this.outputs
+         * @type {Boolean[]}
+         */
+        const parsedOutputs = [];
+
+        for (let output of this.outputs) {
+            parsedOutputs.push(
+                Boolean(output % 2)
+            );
+        }
+
+        return parsedOutputs;
+    }
 }
 
-export { LogicGate };
+export { Abstract };
 
-class Constant1 extends LogicGate {
+//* should not exist here, stays for development purposes
+class Constant1 extends Abstract {
     /**
      * Constant constructor
      * @param {World} parent parent world
@@ -110,7 +131,8 @@ class Constant1 extends LogicGate {
 
 export { Constant1 };
 
-class Constant0 extends LogicGate {
+//* should not exist here, stays for development purposes
+class Constant0 extends Abstract {
     /**
      * Constant constructor
      * @param {World} parent parent world
@@ -135,7 +157,7 @@ class Constant0 extends LogicGate {
 
 export { Constant0 };
 
-class AndGate extends LogicGate {
+class AND extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -161,9 +183,9 @@ class AndGate extends LogicGate {
     }
 }
 
-export { AndGate };
+export { AND };
 
-class OrGate extends LogicGate {
+class OR extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -189,9 +211,9 @@ class OrGate extends LogicGate {
     }
 }
 
-export { OrGate };
+export { OR };
 
-class XorGate extends LogicGate {
+class XOR extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -217,9 +239,9 @@ class XorGate extends LogicGate {
     }
 }
 
-export { XorGate };
+export { XOR };
 
-class NotGate extends LogicGate {
+class NOT extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -244,9 +266,9 @@ class NotGate extends LogicGate {
     }
 }
 
-export { NotGate };
+export { NOT };
 
-class NandGate extends LogicGate {
+class NAND extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -272,9 +294,9 @@ class NandGate extends LogicGate {
     }
 }
 
-export { NandGate };
+export { NAND };
 
-class NorGate extends LogicGate {
+class NOR extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -300,9 +322,9 @@ class NorGate extends LogicGate {
     }
 }
 
-export { NorGate };
+export { NOR };
 
-class NxorGate extends LogicGate {
+class NXOR extends Abstract {
     /**
      * AndGate constructor
      * @param {World} parent parent world
@@ -328,4 +350,4 @@ class NxorGate extends LogicGate {
     }
 }
 
-export { NxorGate };
+export { NXOR };
