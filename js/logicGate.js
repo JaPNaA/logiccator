@@ -1,12 +1,11 @@
 import { Thing } from "./thing.js";
-import { World } from "./world.js";
-import { InputVertical } from "./inputVertical.js";
+import { Circuit } from "./world.js";
 import { Wire } from "./wire.js";
 
 class Abstract extends Thing {
     /**
      * LogicGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -41,6 +40,13 @@ class Abstract extends Thing {
          * @type {Number}
          */
         this.inputLength = 0;
+
+        /**
+         * Whether the input and output locations change dynamically
+         * dependant on the other thing where it's connected to
+         * @type {Boolean}
+         */
+        this.connectionLocationIsDynamic = false; //* implement this
     }
 
     /**
@@ -48,9 +54,8 @@ class Abstract extends Thing {
      * @param {Wire} wire wire to attach to
      * @param {Number} index where the wire attaches to
      */
-    attachWire(wire, index) {
+    setIn(wire, index) {
         wire.setOut(this, index);
-        this.inputWires[index] = wire;
     }
 
     /**
@@ -67,7 +72,7 @@ class Abstract extends Thing {
     /**
      * Updates all inputs recursively
      */
-    update() {
+    backProp() {
         for (var i = 0; i < this.inputLength; i++) {
             this.inputWires[i].update();
         }
@@ -101,15 +106,54 @@ class Abstract extends Thing {
 
         return parsedOutputs;
     }
+
+    /**
+     * Gets position of output of gate
+     * @param {Thing} from item from
+     * @param {Number} index index of output to
+     * @returns {Number[]} x, y position
+     */
+    getOutPos(from, index) {
+        let x = this.x + this.width / 2;
+
+        if (this.outputLength === 1) {
+            return [x, this.y];
+        } else {
+            let offy = this.height / (this.outputLength - 1) * index - this.height / 2;
+            offy *= 0.5;
+
+            return [x, this.y + offy];
+        }
+    }
+
+    /**
+     * Gets position of input of gate
+     * @param {Thing} from item from
+     * @param {Number} index index of output to
+     * @returns {Number[]} x, y position
+     */
+    getInPos(from, index) {
+        let x = this.x - this.width / 2;
+
+        if (this.inputLength === 1) {
+            return [x, this.y];
+        } else {
+            let offy = this.height / (this.inputLength - 1) * index - this.height / 2;
+            offy *= 0.5;
+
+            return [x, this.y + offy];
+        }
+    }
 }
 
 export { Abstract };
 
-//* should not exist here, stays for development purposes
-class Constant1 extends Abstract {
+// Constants
+// -----------------------------------------------------------------------------
+class Constant extends Abstract {
     /**
      * Constant constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -118,6 +162,8 @@ class Constant1 extends Abstract {
 
         this.inputLength = 0;
         this.outputLength = 1;
+
+        this.value = 0;
     }
 
     calc() {
@@ -125,42 +171,39 @@ class Constant1 extends Abstract {
             throw new Error("Invalid inputs to gate");
         }
 
-        this.outputs[0] = 1;
+        this.outputs[0] = this.value;
+    }
+}
+
+export { Constant };
+
+//* should not exist here, stays for development purposes
+class Constant1 extends Constant {
+    /**
+     * Constant constructor
+     * @param {Circuit} parent parent world
+     * @param {Number} x center x
+     * @param {Number} y center y
+     */
+    constructor(parent, x, y) {
+        super(parent, x, y);
+        this.value = 1;
     }
 }
 
 export { Constant1 };
 
 //* should not exist here, stays for development purposes
-class Constant0 extends Abstract {
-    /**
-     * Constant constructor
-     * @param {World} parent parent world
-     * @param {Number} x center x
-     * @param {Number} y center y
-     */
-    constructor(parent, x, y) {
-        super(parent, x, y);
-
-        this.inputLength = 0;
-        this.outputLength = 1;
-    }
-
-    calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
-        }
-
-        this.outputs[0] = 0;
-    }
-}
+class Constant0 extends Abstract { }
 
 export { Constant0 };
 
+// Gates
+// -----------------------------------------------------------------------------
 class AND extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -168,7 +211,7 @@ class AND extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -188,7 +231,7 @@ export { AND };
 class OR extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -196,7 +239,7 @@ class OR extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -216,7 +259,7 @@ export { OR };
 class XOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -224,7 +267,7 @@ class XOR extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -244,7 +287,7 @@ export { XOR };
 class NOT extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -252,7 +295,7 @@ class NOT extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 1;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -271,7 +314,7 @@ export { NOT };
 class NAND extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -279,7 +322,7 @@ class NAND extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -299,7 +342,7 @@ export { NAND };
 class NOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -307,7 +350,7 @@ class NOR extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {
@@ -327,7 +370,7 @@ export { NOR };
 class NXOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -335,7 +378,7 @@ class NXOR extends Abstract {
         super(parent, x, y);
 
         this.inputLength = 2;
-        this.outputLength = 0;
+        this.outputLength = 1;
     }
 
     calc() {

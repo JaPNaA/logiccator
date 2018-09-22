@@ -1,4 +1,4 @@
-import { World } from "./world.js";
+import { Circuit } from "./world.js";
 
 class App {
     constructor() {
@@ -33,9 +33,9 @@ class App {
         /**
          * The world that contains all of the gates, inputs,
          * outputs, and comments.
-         * @type {World}
+         * @type {Circuit}
          */
-        this.world = new World(this);
+        this.world = new Circuit(this);
 
 
         this.setup();

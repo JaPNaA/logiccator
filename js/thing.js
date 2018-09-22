@@ -1,14 +1,14 @@
-import { World } from "./world.js";
+import { Circuit } from "./world.js";
 
 class Thing {
     /**
      * Thing constructor
-     * @param {World} parent parent world
+     * @param {Circuit} parent parent world
      */
     constructor(parent) {
         /**
          * Parent world
-         * @type {World}
+         * @type {Circuit}
          */
         this.world = parent;
 
@@ -35,6 +35,19 @@ class Thing {
          * @type {Number}
          */
         this.height = 0;
+
+        this.world.things.push(this);
+    }
+
+    /**
+     * Thing deconstructor
+     */
+    _deconstructor() {
+        this.world.things.splice(this.world.things.indexOf(this), 1);
+    }
+
+    deconstructor() {
+        this._deconstructor();
     }
 
     /**
@@ -56,6 +69,26 @@ class Thing {
 
         X.fillStyle = "#F00"; //* temp
         X.fillRect(x, y, this.width, this.height);
+    }
+
+    /**
+     * Gets position of output of gate
+     * @param {Thing} from item from
+     * @param {Number} index index of output to
+     * @returns {Number[]} x, y position
+     */
+    getOutPos(from, index) {
+        return [this.x, this.y];
+    }
+
+    /**
+     * Gets position of input of gate
+     * @param {Thing} from item from
+     * @param {Number} index index of output to
+     * @returns {Number[]} x, y position
+     */
+    getInPos(from, index) {
+        return [this.x, this.y];
     }
 }
 export {Thing};

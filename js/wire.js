@@ -1,11 +1,11 @@
 import { Abstract } from "./logicGate.js";
-import { World } from "./world.js";
+import { Circuit } from "./world.js";
 import { Thing } from "./thing.js";
 
 class Wire extends Thing {
     /**
      * Input constructor
-     * @param {World} world parent world
+     * @param {Circuit} world parent world
      */
     constructor(world) {
         super(world);
@@ -61,6 +61,8 @@ class Wire extends Thing {
         this.gateOut = gate;
         this.gateOutIndex = index;
         this.validate();
+
+        gate.inputWires[index] = this;
     }
 
     /**
@@ -101,7 +103,11 @@ class Wire extends Thing {
      * Updates all children recursively
      */
     update() {
-        this.gateIn.update();
+        if (this.gateIn) {
+            this.gateIn.backProp();
+        } else {
+            throw new Error("Wire not attached to anything else");
+        }
     }
 
     /**
@@ -109,9 +115,12 @@ class Wire extends Thing {
      * @param {CanvasRenderingContext2D} X rendering context
      */
     draw(X) {
+        const [inX, inY] = this.gateIn.getOutPos(this.gateOut, this.gateOutIndex);
+        const [outX, outY] = this.gateOut.getInPos(this.gateIn, this.gateOutIndex);
+
         X.beginPath();
-        X.moveTo(this.gateIn.x, this.gateIn.y);
-        X.lineTo(this.gateOut.x, this.gateOut.y);
+        X.moveTo(inX, inY);
+        X.lineTo(outX, outY);
         X.lineWidth = 2;
         X.strokeStyle = "#000";
         X.stroke();
