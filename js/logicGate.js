@@ -109,15 +109,24 @@ class Abstract extends Thing {
      * @returns {Number[]} x, y position
      */
     getOutPos(from, index) {
-        let x = this.x + this.width / 2;
-
-        if (this.outputLength === 1) {
-            return [x, this.y];
+        if (this.outputLocationOffset[index]) {
+            return [
+                this.x + this.outputLocationOffset[index][0],
+                this.y + this.outputLocationOffset[index][1]
+            ];
         } else {
-            let offy = this.height / (this.outputLength - 1) * index - this.height / 2;
-            offy *= 0.5;
-
-            return [x, this.y + offy];
+            let offx = this.width / 2;
+    
+            if (this.outputLength === 1) {
+                this.outputLocationOffset[index] = [offx, 0];
+                return [this.x + offx, this.y];
+            } else {
+                let offy = this.height / (this.outputLength - 1) * index - this.height / 2;
+                offy *= 0.5;
+    
+                this.outputLocationOffset[index] = [offx, offy];
+                return [offx, this.y + offy];
+            }
         }
     }
 
@@ -128,15 +137,24 @@ class Abstract extends Thing {
      * @returns {Number[]} x, y position
      */
     getInPos(from, index) {
-        let x = this.x - this.width / 2;
-
-        if (this.inputLength === 1) {
-            return [x, this.y];
+        if (this.inputLocationOffset[index]) {
+            return [
+                this.x + this.inputLocationOffset[index][0],
+                this.y + this.inputLocationOffset[index][1]
+            ];
         } else {
-            let offy = this.height / (this.inputLength - 1) * index - this.height / 2;
-            offy *= 0.5;
-
-            return [x, this.y + offy];
+            let offx = -this.width / 2;
+    
+            if (this.inputLength === 1) {
+                this.inputLocationOffset[index] = [offx, 0];
+                return [this.x + offx, this.y];
+            } else {
+                let offy = this.height / (this.inputLength - 1) * index - this.height / 2;
+                offy *= 0.5;
+    
+                this.inputLocationOffset[index] = [offx, offy];
+                return [this.x + offx, this.y + offy];
+            }
         }
     }
 }

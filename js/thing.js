@@ -43,6 +43,20 @@ class Thing {
          */
         this.connectionLocationIsDynamic = false;
 
+        /**
+         * List of output connections that can be made based on index
+         * [[x0, y0], [x1, y1]]
+         * @type {Array.<Number[]>}
+         */
+        this.outputLocationOffset = [];
+
+        /**
+         * List of input connections that can be made based on index
+         * [[x0, y0], [x1, y1]]
+         * @type {Array.<Number[]>}
+         */
+        this.inputLocationOffset = [];
+
         this.world.things.push(this);
     }
 

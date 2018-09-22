@@ -103,6 +103,7 @@ class Circuit {
     }
 
     draw() {
+        console.log("draw");
         for (let thing of this.things) {
             thing.draw(this.app.X);
         }
