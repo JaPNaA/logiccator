@@ -41,12 +41,7 @@ class Abstract extends Thing {
          */
         this.inputLength = 0;
 
-        /**
-         * Whether the input and output locations change dynamically
-         * dependant on the other thing where it's connected to
-         * @type {Boolean}
-         */
-        this.connectionLocationIsDynamic = false; //* implement this
+        this.connectionLocationIsDynamic = false;
     }
 
     /**

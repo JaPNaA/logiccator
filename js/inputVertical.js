@@ -10,6 +10,7 @@ class InputVertical extends Vertical {
      */
     constructor(world, x) {
         super(world, x);
+
         this.world.inputs.push(this);
     }
 
@@ -33,6 +34,11 @@ class InputVertical extends Vertical {
      * @returns {Number[]} x, y position
      */
     getOutPos(from, index) {
+        if (from.connectionLocationIsDynamic) {
+            console.warn("Attempting to connect dynamic to dynamic, not implemented");
+            return;
+        }
+
         let [x, y] = from.getInPos(null, index);
         
         x = this.x;

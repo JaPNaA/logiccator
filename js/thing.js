@@ -36,6 +36,13 @@ class Thing {
          */
         this.height = 0;
 
+        /**
+         * Whether the input and output locations change dynamically
+         * dependant on the other thing where it's connected to
+         * @type {Boolean}
+         */
+        this.connectionLocationIsDynamic = false;
+
         this.world.things.push(this);
     }
 

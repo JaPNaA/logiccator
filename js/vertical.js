@@ -11,6 +11,8 @@ class Vertical extends gate.Constant {
     constructor(world, x) {
         super(world, x, 0);
 
+        this.connectionLocationIsDynamic = true;
+
         this.width = 4;
         this.height = null;
     }
