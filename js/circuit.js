@@ -3,6 +3,7 @@ import { App } from "./app.js";
 import * as gate from "./logicGate.js";
 import { Wire } from "./wire.js";
 import { InputVertical } from "./inputVertical.js";
+import { Comment } from "./comment.js";
 
 class Circuit {
     /**
@@ -75,6 +76,8 @@ class Circuit {
         const wire2 = new Wire(this);
         tgate.setIn(wire2, 0);
         wire2.setIn(tgate10, 0);
+
+        const comment = new Comment(this, 550, 175);
 
         input0.setInput(0);
         input0.setInput(0);
