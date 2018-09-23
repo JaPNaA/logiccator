@@ -13,12 +13,20 @@ class Comment extends Thing {
 
         this.x = x;
         this.y = y;
+        this.width = 6;
+        this.height = 6;
 
         /**
          * Comment text
          * @type {String}
          */
         this.text = "Enter comment...";
+
+        /**
+         * Is comment collapsed?
+         * @type {Boolean}
+         */
+        this.collapsed = true;
     }
 
     /**
@@ -26,12 +34,46 @@ class Comment extends Thing {
      * @param {CanvasRenderingContext2D} X drawing context
      */
     draw(X) {
-        X.font = "16px Helvetica";
-        X.textAlign = "left";
-        X.textBaseline = "top";
         X.fillStyle = "#009800";
-        X.fillText(this.text, this.x, this.y);
+        X.fillRect(
+            this.x - this.width / 2,
+            this.y - this.height / 2,
+            this.width,
+            this.height
+        );
+
+        if (!this.collapsed) {
+            X.font = "16px Helvetica";
+            X.textAlign = "left";
+            X.textBaseline = "top";
+            X.fillStyle = "#009800";
+            X.fillText(this.text, this.x + 4, this.y + 4);
+        }
     }
+
+    /**
+     * Mousedown event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousedown(e) {
+        this.collapsed = false;
+        this.circuit.app.shouldRender = true;
+    }
+
+    /**
+     * Mouseup event handler
+     * @param {MouseEvent} e event information
+     */
+    onmouseup(e) {
+        this.collapsed = true;
+        this.circuit.app.shouldRender = true;
+    }
+
+    /**
+     * Mousemove event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousemove(e) { }
 }
 
 export { Comment };

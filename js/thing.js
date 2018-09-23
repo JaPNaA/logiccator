@@ -111,5 +111,23 @@ class Thing {
     getInPos(from, index) {
         return [this.x, this.y];
     }
+
+    /**
+     * Mousemove event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousemove(e) { }
+
+    /**
+     * Mousedown event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousedown(e) { }
+
+    /**
+     * Mouseup event handler
+     * @param {MouseEvent} e event information
+     */
+    onmouseup(e) { }
 }
 export {Thing};

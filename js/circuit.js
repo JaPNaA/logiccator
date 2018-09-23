@@ -106,9 +106,39 @@ class Circuit {
     }
 
     draw() {
-        console.log("draw");
+        // console.log("draw");
         for (let thing of this.things) {
             thing.draw(this.app.X);
+        }
+    }
+
+    /**
+     * Mousemove event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousemove(e) {
+        for (let thing of this.things) {
+            thing.onmousemove(e);
+        }
+    }
+
+    /**
+     * Mousedown event handler
+     * @param {MouseEvent} e event information
+     */
+    onmousedown(e) {
+        for (let thing of this.things) {
+            thing.onmousedown(e);
+        }
+    }
+
+    /**
+     * Mouseup event handler
+     * @param {MouseEvent} e event information
+     */
+    onmouseup(e) {
+        for (let thing of this.things) {
+            thing.onmouseup(e);
         }
     }
 }

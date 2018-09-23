@@ -37,6 +37,8 @@ class App {
          */
         this.circuit = new Circuit(this);
 
+        this.mouseX = 0;
+        this.mouseY = 0;
 
         this.setup();
     }
@@ -45,6 +47,9 @@ class App {
         // register events
         // -----------------------------------------------------------------------------
         addEventListener("resize", this.resizeHandler.bind(this));
+        addEventListener("mousemove", this.mousemoveHandler.bind(this));
+        addEventListener("mousedown", this.mousedownHandler.bind(this));
+        addEventListener("mouseup", this.mouseupHandler.bind(this));
 
         // call inital functions
         // -----------------------------------------------------------------------------
@@ -95,6 +100,32 @@ class App {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.shouldRender = true;
+    }
+
+    /**
+     * Mousemove event handler
+     * @param {MouseEvent} e event information
+     */
+    mousemoveHandler(e) {
+        this.mouseX = e.clientX;
+        this.mouseY = e.clientY;
+        this.circuit.onmousemove(e);
+    }
+
+    /**
+     * Mousedown event handler
+     * @param {MouseEvent} e event information
+     */
+    mousedownHandler(e) {
+        this.circuit.onmousedown(e);
+    }
+
+    /**
+     * Mouseup event handler
+     * @param {MouseEvent} e event information
+     */
+    mouseupHandler(e) {
+        this.circuit.onmouseup(e);
     }
 }
 
