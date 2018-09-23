@@ -1,5 +1,6 @@
 import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
+import { pointInRectCheck } from "./utils.js";
 
 class Comment extends Thing {
     /**
@@ -13,20 +14,86 @@ class Comment extends Thing {
 
         this.x = x;
         this.y = y;
-        this.width = 6;
-        this.height = 6;
+        this.width = 8;
+        this.height = 8;
 
         /**
          * Comment text
          * @type {String}
          */
-        this.text = "Enter comment...";
+        this._text = "Enter comment...";
 
         /**
          * Is comment collapsed?
          * @type {Boolean}
          */
         this.collapsed = true;
+
+        /**
+         * Is mouse hovering over comment?
+         * @type {Boolean}
+         */
+        this.hovering = false;
+
+        /**
+         * Comment HTML element
+         * @type {HTMLDivElement}
+         */
+        this.elm = document.createElement("div");
+
+        /**
+         * If the element is visible to the user or not
+         * @type {Boolean}
+         */
+        this.elmIsHidden = true;
+
+        this.setupElement();
+    }
+
+    set text(e) {
+        this.elm.innerText = e;
+        this._text = e;
+    }
+
+    get text() {
+        return this._text;
+    }
+
+    deconstructor() {
+        this._deconstructor();
+        this.elm.parentElement.removeChild(this.elm);
+    }
+
+    setupElement() {
+        this.elm.innerText = this._text;
+
+        this.elm.classList.add("comment");
+        
+        this.showElm(false);
+        this.setElmPos(this.x, this.y);
+        document.body.appendChild(this.elm);
+    }
+
+    /**
+     * Show/hide element
+     * @param {Boolean} e show element?
+     */
+    showElm(e) {
+        if (e) {
+            if (this.elmIsHidden) {
+                this.elm.style.display = "block";
+            }
+        } else {
+            if (!this.elmIsHidden) {
+                this.elm.style.display = "none";
+            }
+        }
+        this.elmIsHidden = e;
+    }
+
+    setElmPos(x, y) {
+        this.elm.style.left = x + "px";
+        this.elm.style.top = y + "px";
     }
 
     /**
@@ -34,7 +101,7 @@ class Comment extends Thing {
      * @param {CanvasRenderingContext2D} X drawing context
      */
     draw(X) {
-        X.fillStyle = "#009800";
+        X.fillStyle = this.collapsed ? "#44b644" : "#009800";
         X.fillRect(
             this.x - this.width / 2,
             this.y - this.height / 2,
@@ -42,12 +109,11 @@ class Comment extends Thing {
             this.height
         );
 
-        if (!this.collapsed) {
-            X.font = "16px Helvetica";
-            X.textAlign = "left";
-            X.textBaseline = "top";
-            X.fillStyle = "#009800";
-            X.fillText(this.text, this.x + 4, this.y + 4);
+        if (!this.collapsed || this.hovering) {
+            this.showElm(true);
+            this.setElmPos(this.x + 16, this.y - 6);
+        } else {
+            this.showElm(false);
         }
     }
 
@@ -56,24 +122,24 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmousedown(e) {
-        this.collapsed = false;
-        this.circuit.app.shouldRender = true;
-    }
-
-    /**
-     * Mouseup event handler
-     * @param {MouseEvent} e event information
-     */
-    onmouseup(e) {
-        this.collapsed = true;
-        this.circuit.app.shouldRender = true;
+        if (this.hovering) {
+            this.collapsed = !this.collapsed;
+            this.circuit.app.shouldRender = true;
+        }
     }
 
     /**
      * Mousemove event handler
      * @param {MouseEvent} e event information
      */
-    onmousemove(e) { }
+    onmousemove(e) {
+        this.hovering = pointInRectCheck(
+            e.clientX, e.clientY, 
+            this.x - this.width / 2, this.y - this.height / 2,
+            this.width, this.height
+        );
+        this.circuit.app.shouldRender = true;
+    }
 }
 
 export { Comment };

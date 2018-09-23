@@ -78,6 +78,8 @@ class Circuit {
         wire2.setIn(tgate10, 0);
 
         const comment = new Comment(this, 550, 175);
+        comment.text = "This is a test comment\nthis is a newline test";
+        comment.collapsed = false;
 
         input0.setInput(0);
         input0.setInput(0);
