@@ -1,11 +1,11 @@
 import { Thing } from "./thing.js";
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 import { Wire } from "./wire.js";
 
 class Abstract extends Thing {
     /**
      * LogicGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -166,7 +166,7 @@ export { Abstract };
 class Constant extends Abstract {
     /**
      * Constant constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -194,7 +194,7 @@ export { Constant };
 class Constant1 extends Constant {
     /**
      * Constant constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -216,7 +216,7 @@ export { Constant0 };
 class AND extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -244,7 +244,7 @@ export { AND };
 class OR extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -272,7 +272,7 @@ export { OR };
 class XOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -300,7 +300,7 @@ export { XOR };
 class NOT extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -327,7 +327,7 @@ export { NOT };
 class NAND extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -355,7 +355,7 @@ export { NAND };
 class NOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */
@@ -383,7 +383,7 @@ export { NOR };
 class NXOR extends Abstract {
     /**
      * AndGate constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      * @param {Number} x center x
      * @param {Number} y center y
      */

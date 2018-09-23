@@ -1,15 +1,15 @@
 import { Thing } from "./thing.js";
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 import * as gate from "./logicGate.js";
 
 class Vertical extends gate.Constant {
     /**
      * Vertical constructor
-     * @param {Circuit} world parent world
+     * @param {Circuit} circuit parent circuit
      * @param {Number} x x position
      */
-    constructor(world, x) {
-        super(world, x, 0);
+    constructor(circuit, x) {
+        super(circuit, x, 0);
 
         this.connectionLocationIsDynamic = true;
 
@@ -24,7 +24,7 @@ class Vertical extends gate.Constant {
     draw(X) {
         X.beginPath();
         X.moveTo(this.x, this.y);
-        X.lineTo(this.x, this.world.app.canvas.height);
+        X.lineTo(this.x, this.circuit.app.canvas.height);
         X.lineWidth = this.width;
         X.stroke();
     }

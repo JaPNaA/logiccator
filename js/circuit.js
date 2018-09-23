@@ -6,14 +6,14 @@ import { InputVertical } from "./inputVertical.js";
 
 class Circuit {
     /**
-     * World constructor
-     * @param {App} app world parent
+     * circuit constructor
+     * @param {App} app circuit parent
      */
     constructor(app) {
         this.app = app;
 
         /**
-         * Everything inside of the world
+         * Everything inside of the circuit
          * @type {Thing[]}
          */
         this.things = [];

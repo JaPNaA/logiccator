@@ -1,16 +1,16 @@
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 
 class Thing {
     /**
      * Thing constructor
-     * @param {Circuit} parent parent world
+     * @param {Circuit} parent parent circuit
      */
     constructor(parent) {
         /**
-         * Parent world
+         * Parent circuit
          * @type {Circuit}
          */
-        this.world = parent;
+        this.circuit = parent;
 
         /**
          * Center X
@@ -57,14 +57,14 @@ class Thing {
          */
         this.inputLocationOffset = [];
 
-        this.world.things.push(this);
+        this.circuit.things.push(this);
     }
 
     /**
      * Thing deconstructor
      */
     _deconstructor() {
-        this.world.things.splice(this.world.things.indexOf(this), 1);
+        this.circuit.things.splice(this.circuit.things.indexOf(this), 1);
     }
 
     deconstructor() {

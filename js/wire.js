@@ -1,14 +1,14 @@
 import { Abstract } from "./logicGate.js";
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 import { Thing } from "./thing.js";
 
 class Wire extends Thing {
     /**
      * Input constructor
-     * @param {Circuit} world parent world
+     * @param {Circuit} circuit parent circuit
      */
-    constructor(world) {
-        super(world);
+    constructor(circuit) {
+        super(circuit);
 
         /**
          * input logic gate

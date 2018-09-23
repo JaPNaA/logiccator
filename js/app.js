@@ -1,4 +1,4 @@
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 
 class App {
     constructor() {
@@ -31,11 +31,11 @@ class App {
         this.animating = false;
 
         /**
-         * The world that contains all of the gates, inputs,
+         * The circuit that contains all of the gates, inputs,
          * outputs, and comments.
          * @type {Circuit}
          */
-        this.world = new Circuit(this);
+        this.circuit = new Circuit(this);
 
 
         this.setup();
@@ -44,7 +44,7 @@ class App {
     setup() {
         // register events
         // -----------------------------------------------------------------------------
-        addEventListener("resize", this.resizeHandler);
+        addEventListener("resize", this.resizeHandler.bind(this));
 
         // call inital functions
         // -----------------------------------------------------------------------------
@@ -68,7 +68,7 @@ class App {
         X.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // draw
-        this.world.draw();
+        this.circuit.draw();
         // X.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
         // X.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -94,6 +94,7 @@ class App {
     resizeHandler() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+        this.shouldRender = true;
     }
 }
 

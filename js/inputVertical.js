@@ -1,22 +1,22 @@
 import { Vertical } from "./vertical.js";
-import { Circuit } from "./world.js";
+import { Circuit } from "./circuit.js";
 import { Thing } from "./thing.js";
 
 class InputVertical extends Vertical {
     /**
      * Input vertical constructor
-     * @param {Circuit} world parent world
+     * @param {Circuit} circuit parent circuit
      * @param {Number} x position
      */
-    constructor(world, x) {
-        super(world, x);
+    constructor(circuit, x) {
+        super(circuit, x);
 
-        this.world.inputs.push(this);
+        this.circuit.inputs.push(this);
     }
 
     deconstructor() {
         this._deconstructor();
-        this.world.inputs.splice(this.world.inputs.indexOf(this), 1);
+        this.circuit.inputs.splice(this.circuit.inputs.indexOf(this), 1);
     }
 
     /**
