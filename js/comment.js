@@ -36,6 +36,12 @@ class Comment extends Thing {
         this.hovering = false;
 
         /**
+         * Was hovering over comment?
+         * @type {Boolean}
+         */
+        this.wasHovering = false;
+
+        /**
          * Comment HTML element
          * @type {HTMLDivElement}
          */
@@ -45,7 +51,7 @@ class Comment extends Thing {
          * If the element is visible to the user or not
          * @type {Boolean}
          */
-        this.elmIsHidden = true;
+        this.elmIsVisible = true;
 
         this.setupElement();
     }
@@ -69,8 +75,8 @@ class Comment extends Thing {
 
         this.elm.classList.add("comment");
         
-        this.showElm(false);
-        this.setElmPos(this.x, this.y);
+        this.showElm(this.elmIsVisible);
+        this.setElmPos(this.x + 16, this.y - 6);
         document.body.appendChild(this.elm);
     }
 
@@ -80,15 +86,15 @@ class Comment extends Thing {
      */
     showElm(e) {
         if (e) {
-            if (this.elmIsHidden) {
+            if (!this.elmIsVisible) {
                 this.elm.style.display = "block";
             }
         } else {
-            if (!this.elmIsHidden) {
+            if (this.elmIsVisible) {
                 this.elm.style.display = "none";
             }
         }
-        this.elmIsHidden = e;
+        this.elmIsVisible = e;
     }
 
     setElmPos(x, y) {
@@ -111,7 +117,6 @@ class Comment extends Thing {
 
         if (!this.collapsed || this.hovering) {
             this.showElm(true);
-            this.setElmPos(this.x + 16, this.y - 6);
         } else {
             this.showElm(false);
         }
@@ -138,7 +143,11 @@ class Comment extends Thing {
             this.x - this.width / 2, this.y - this.height / 2,
             this.width, this.height
         );
-        this.circuit.app.shouldRender = true;
+
+        if (this.hovering !== this.wasHovering) {
+            this.circuit.app.shouldRender = true;
+        }
+        this.wasHovering = this.hovering;
     }
 }
 
