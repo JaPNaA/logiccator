@@ -10,6 +10,8 @@ class InputVertical extends Vertical {
      */
     constructor(circuit, x) {
         super(circuit, x);
+        
+        this.value = 0;
 
         this.circuit.inputs.push(this);
     }
@@ -25,6 +27,10 @@ class InputVertical extends Vertical {
      */
     setInput(val) {
         this.value = val;
+    }
+
+    setIn() {
+        throw TypeError("Cannot set input wire of inputVertical");
     }
 
     /**

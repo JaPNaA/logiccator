@@ -68,8 +68,14 @@ class Abstract extends Thing {
      * Updates all inputs recursively
      */
     backProp() {
-        for (var i = 0; i < this.inputLength; i++) {
-            this.inputWires[i].update();
+        if (this.inputLength === null) {
+            for (let i of this.inputWires) {
+                i.update();
+            }
+        } else {
+            for (var i = 0; i < this.inputLength; i++) {
+                this.inputWires[i].update();
+            }
         }
         this.calc();
     }

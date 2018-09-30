@@ -4,6 +4,7 @@ import * as gate from "./logicGate.js";
 import { Wire } from "./wire.js";
 import { InputVertical } from "./inputVertical.js";
 import { Comment } from "./comment.js";
+import { OutputVertical } from "./outputVertical.js";
 
 class Circuit {
     /**
@@ -29,10 +30,8 @@ class Circuit {
         //* temp
 
         const input0 = new InputVertical(this, 50);
-        this.things.push(input0);
 
         const input1 = new InputVertical(this, 150);
-        this.things.push(input1);
 
         const tgate10 = new gate.NOT(this, 400, 50);
         const tgate11 = new gate.NOT(this, 400, 200);
@@ -79,30 +78,35 @@ class Circuit {
 
         const comment = new Comment(this, 550, 175);
         comment.text = "This is a test comment\nthis is a newline test";
-        comment.collapsed = false;
+        comment.collapsed = true;
+
+        const outputWire = new Wire(this);
+        const output = new OutputVertical(this, 650);
+        output.setIn(outputWire, 0);
+        outputWire.setIn(tgate, 0);
 
         input0.setInput(0);
         input0.setInput(0);
-        tgate.backProp();
-        console.log(tgate.getState());
+        output.backProp();
+        console.log(output.getState());
 
 
         input0.setInput(1);
         input0.setInput(0);
-        tgate.backProp();
-        console.log(tgate.getState());
+        output.backProp();
+        console.log(output.getState());
 
 
         input0.setInput(0);
         input0.setInput(1);
-        tgate.backProp();
-        console.log(tgate.getState());
+        output.backProp();
+        console.log(output.getState());
 
 
         input0.setInput(1);
         input0.setInput(1);
-        tgate.backProp();
-        console.log(tgate.getState());
+        output.backProp();
+        console.log(output.getState());
 
         console.log(this);
     }

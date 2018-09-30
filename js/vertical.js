@@ -13,8 +13,21 @@ class Vertical extends gate.Constant {
 
         this.connectionLocationIsDynamic = true;
 
+        this.inputLength = null;
+        this.outputLength = null;
+
         this.width = 4;
         this.height = null;
+    }
+
+
+    /**
+     * attaches a wire to the input of gate
+     * @param {Wire} wire wire to attach to
+     * @param {Number} index where the wire attaches to
+     */
+    setIn(wire, index) {
+        wire.setOut(this, this.inputWires.length); // causes an equivent to "push"
     }
 
     /**
