@@ -7,10 +7,20 @@ canvas {
 }
 
 .comment {
+    --background-color: #ffffff;
+
     position: absolute;
+    
     font-family: Helvetica;
-    font-size: 16px;
+
+    background-color: var(--background-color);
     color: #009800;
+    border: 8px var(--background-color) solid;
+    box-shadow: 1px 3px 16px 0px #00000038, 0px 0px 6px 0px #0000001c;
+
+    border-radius: 2px;
+
+    font-size: 16px;
     display: block;
 }
 
