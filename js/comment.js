@@ -87,11 +87,11 @@ class Comment extends Thing {
     showElm(e) {
         if (e) {
             if (!this.elmIsVisible) {
-                this.elm.style.display = "block";
+                this.elm.classList.remove("hidden");
             }
         } else {
             if (this.elmIsVisible) {
-                this.elm.style.display = "none";
+                this.elm.classList.add("hidden");
             }
         }
         this.elmIsVisible = e;
