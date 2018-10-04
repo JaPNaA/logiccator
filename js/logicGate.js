@@ -229,17 +229,22 @@ class Abstract extends Thing {
     predraw(X) {
         X.fillStyle = this.color;
         X.strokeStyle = this.color;
-        X.font = "16px Arial";
+        X.font = "16px Consolas, monospace";
         X.textAlign = "center";
         X.textBaseline = "middle";
 
         X.beginPath();
         X.lineWidth = 2;
-        X.strokeRect(
+        X.rect(
             this.x - this.width / 2,
             this.y - this.height / 2,
             this.width, this.height
         );
+        X.stroke();
+        if (this.outputLength === 1 && this.outputs[0] % 2) {
+            X.fill();
+            X.fillStyle = "#ffffff";
+        }
     }
 }
 
