@@ -86,29 +86,31 @@ class Circuit {
         outputWire.setIn(tgate, 0);
 
         input0.setInput(0);
-        input0.setInput(0);
+        input1.setInput(0);
         output.backProp();
         console.log(output.getState());
 
 
         input0.setInput(1);
-        input0.setInput(0);
+        input1.setInput(0);
         output.backProp();
         console.log(output.getState());
 
 
         input0.setInput(0);
-        input0.setInput(1);
+        input1.setInput(1);
         output.backProp();
         console.log(output.getState());
 
 
         input0.setInput(1);
-        input0.setInput(1);
+        input1.setInput(1);
         output.backProp();
         console.log(output.getState());
 
         console.log(this);
+
+        // this setup represents (a, b) => (!!(a ^ b)) ^ (!!(a & b))
     }
 
     draw() {

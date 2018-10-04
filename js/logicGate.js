@@ -30,6 +30,12 @@ class Abstract extends Thing {
         this.inputWires = [];
 
         /**
+         * List of outputs the logic gate has
+         * @type {Wire[]}
+         */
+        this.outputWires = [];
+
+        /**
          * Number of outputs this logic gate outputs
          * @type {Number}
          */
@@ -70,14 +76,31 @@ class Abstract extends Thing {
     backProp() {
         if (this.inputLength === null) {
             for (let i of this.inputWires) {
-                i.update();
+                i.backProp();
             }
         } else {
             for (var i = 0; i < this.inputLength; i++) {
-                this.inputWires[i].update();
+                this.inputWires[i].backProp();
             }
         }
         this.calc();
+    }
+
+    /**
+     * Update all outputs recursively
+     */
+    forwardProp() {
+        this.calc();
+
+        if (this.outputLength === null) {
+            for (let i of this.outputWires) {
+                i.backProp();
+            }
+        } else {
+            for (var i = 0; i < this.inputLength; i++) {
+                this.inputWires[i].backProp();
+            }        
+        }
     }
 
     /**
@@ -163,6 +186,26 @@ class Abstract extends Thing {
             }
         }
     }
+
+    /**
+     * sets up drawing context for gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    predraw(X) {
+        X.fillStyle = "#ff0000";
+        X.strokeStyle = "#ff0000";
+        X.font = "16px Arial";
+        X.textAlign = "center";
+        X.textBaseline = "middle";
+
+        X.beginPath();
+        X.lineWidth = 2;
+        X.strokeRect(
+            this.x - this.width / 2,
+            this.y - this.height / 2,
+            this.width, this.height
+        );
+    }
 }
 
 export { Abstract };
@@ -243,6 +286,15 @@ class AND extends Abstract {
 
         this.outputs[0] = a & b;
     }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("AND", this.x, this.y);
+    }
 }
 
 export { AND };
@@ -270,6 +322,15 @@ class OR extends Abstract {
             b = this.inputWires[1].getState();
 
         this.outputs[0] = a | b;
+    }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("OR", this.x, this.y);
     }
 }
 
@@ -299,6 +360,15 @@ class XOR extends Abstract {
 
         this.outputs[0] = a ^ b;
     }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("XOR", this.x, this.y);
+    }
 }
 
 export { XOR };
@@ -325,6 +395,15 @@ class NOT extends Abstract {
         let a = this.inputWires[0].getState();
 
         this.outputs[0] = ~a;
+    }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("NOT", this.x, this.y);
     }
 }
 
@@ -354,6 +433,15 @@ class NAND extends Abstract {
 
         this.outputs[0] = ~(a & b);
     }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("NAND", this.x, this.y);
+    }
 }
 
 export { NAND };
@@ -382,6 +470,15 @@ class NOR extends Abstract {
 
         this.outputs[0] = ~(a | b);
     }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("NOR", this.x, this.y);
+    }
 }
 
 export { NOR };
@@ -409,6 +506,15 @@ class NXOR extends Abstract {
             b = this.inputWires[1].getState();
 
         this.outputs[0] = ~(a ^ b);
+    }
+
+    /**
+     * draw gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     */
+    draw(X) {
+        this.predraw(X);
+        X.fillText("NXOR", this.x, this.y);
     }
 }
 

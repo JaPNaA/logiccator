@@ -16,6 +16,8 @@ class Comment extends Thing {
         this.y = y;
         this.width = 8;
         this.height = 8;
+        this.hitboxWidth = 12;
+        this.hitboxHeight = 12;
 
         /**
          * Comment text
@@ -138,10 +140,10 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmousemove(e) {
-        this.hovering = pointInRectCheck(
-            e.clientX, e.clientY, 
-            this.x - this.width / 2, this.y - this.height / 2,
-            this.width, this.height
+        this.hovering = pointInRectCheck(e.clientX, e.clientY,
+            this.x - this.hitboxWidth / 2,
+            this.y - this.hitboxHeight / 2,
+            this.hitboxWidth, this.hitboxHeight
         );
 
         if (this.hovering !== this.wasHovering) {

@@ -50,6 +50,8 @@ class Wire extends Thing {
         this.gateIn = gate;
         this.gateInIndex = index;
         this.validate();
+
+        gate.outputWires[index] = this;
     }
 
     /**
@@ -100,13 +102,24 @@ class Wire extends Thing {
     }
 
     /**
-     * Updates all children recursively
+     * Updates all input gates recursively
      */
-    update() {
+    backProp() {
         if (this.gateIn) {
             this.gateIn.backProp();
         } else {
-            throw new Error("Wire not attached to anything else");
+            throw new Error("No inputs attached to wire");
+        }
+    }
+
+    /**
+     * Updates all output gates recursively
+     */
+    forwardProp() {
+        if (this.gateOut) {
+            this.gateOut.forwardProp();
+        } else {
+            throw new Error("No outputs attached to wire");
         }
     }
 

@@ -15,7 +15,9 @@ canvas {
 
     background-color: var(--background-color);
     color: #009800;
-    border: 8px var(--background-color) solid;
+    
+    padding: 8px 12px;
+
     box-shadow: 1px 3px 16px 0px #00000038, 0px 0px 6px 0px #0000001c;
 
     border-radius: 2px;

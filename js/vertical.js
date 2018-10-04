@@ -1,6 +1,7 @@
 import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
 import * as gate from "./logicGate.js";
+import { Wire } from "./wire.js";
 
 class Vertical extends gate.Constant {
     /**
