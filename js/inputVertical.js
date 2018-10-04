@@ -1,6 +1,7 @@
 import { Vertical } from "./vertical.js";
 import { Circuit } from "./circuit.js";
 import { Thing } from "./thing.js";
+import { Wire } from "./wire.js";
 
 class InputVertical extends Vertical {
     /**
@@ -29,8 +30,16 @@ class InputVertical extends Vertical {
         this.value = val;
     }
 
-    setIn() {
+    /**
+     * sets input wire of this
+     * @param {Wire} wire wire
+     * @param {Number} index index of self to connect wire to
+     * @return {Number} cannot set input of wire of inputVertical
+     */
+    setIn(wire, index) {
         throw TypeError("Cannot set input wire of inputVertical");
+        // eslint-disable-next-line no-unreachable
+        return -1;
     }
 
     /**

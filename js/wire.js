@@ -45,26 +45,30 @@ class Wire extends Thing {
      * Set input gate
      * @param {Abstract} gate input gate
      * @param {Number} index index of input of gate
+     * @returns {Number} index of gate wire connected to
      */
     setIn(gate, index) {
-        this.gateIn = gate;
-        this.gateInIndex = index;
-        this.validate();
+        return gate.setOut(this, index);
+        // this.gateIn = gate;
+        // this.gateInIndex = index;
+        // this.validate();
 
-        gate.outputWires[index] = this;
+        // gate.outputWires[index] = this;
     }
 
     /**
      * Set output gate
      * @param {Abstract} gate output gate
      * @param {Number} index index of output of gate
+     * @returns {Number} index of gate wire connected to
      */
     setOut(gate, index) {
-        this.gateOut = gate;
-        this.gateOutIndex = index;
-        this.validate();
+        return gate.setIn(this, index);
+        // this.gateOut = gate;
+        // this.gateOutIndex = index;
+        // this.validate();
 
-        gate.inputWires[index] = this;
+        // gate.inputWires[index] = this;
     }
 
     /**

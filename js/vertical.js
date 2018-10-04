@@ -26,9 +26,19 @@ class Vertical extends gate.Constant {
      * attaches a wire to the input of gate
      * @param {Wire} wire wire to attach to
      * @param {Number} index where the wire attaches to
+     * @return {Number} index of gate wire connected to
      */
     setIn(wire, index) {
-        wire.setOut(this, this.inputWires.length); // causes an equivent to "push"
+        const ix = this.inputWires.length;
+
+        this.inputWires[ix] = wire;
+
+        wire.gateOut = this;
+        wire.gateOutIndex = ix;
+        wire.validate();
+        return ix;
+        // wire.setOut(this, ix); // causes an equivent to "push"
+        // return ix;
     }
 
     /**

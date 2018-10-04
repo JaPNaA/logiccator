@@ -53,6 +53,9 @@ class Abstract extends Thing {
          */
         this.color = "#ff0000";
 
+        /**
+         * do the connection locations change?
+         */
         this.connectionLocationIsDynamic = false;
     }
 
@@ -60,9 +63,32 @@ class Abstract extends Thing {
      * attaches a wire to the input of gate
      * @param {Wire} wire wire to attach to
      * @param {Number} index where the wire attaches to
+     * @returns {Number} index of gate wire connected to
      */
     setIn(wire, index) {
-        wire.setOut(this, index);
+        // wire.setOut(this, index);
+        this.inputWires[index] = wire;
+        
+        wire.gateOut = this;
+        wire.gateOutIndex = index;
+        wire.validate();
+        return index;
+    }
+
+    /**
+     * attaches a wire to the input of gate
+     * @param {Wire} wire wire to attach to
+     * @param {Number} index where the wire attaches to
+     * @returns {Number} index of gate wire connected to
+     */
+    setOut(wire, index) {
+        // wire.setIn(this, index);
+        wire.gateIn = this;
+        wire.gateInIndex = index;
+        wire.validate();
+
+        this.outputWires[index] = wire;
+        return index;
     }
 
     /**
@@ -96,22 +122,25 @@ class Abstract extends Thing {
      * Update all outputs recursively
      */
     forwardProp() {
+        console.groupCollapsed(this.constructor.name);
+        console.log(this);
         this.calc();
 
         if (this.outputLength === null) {
             for (let i of this.outputWires) {
-                i.backProp();
+                i.forwardProp();
             }
         } else {
-            for (var i = 0; i < this.inputLength; i++) {
-                this.inputWires[i].backProp();
+            for (var i = 0; i < this.outputLength; i++) {
+                this.outputWires[i].forwardProp();
             }        
         }
+        console.groupEnd();
     }
 
     /**
      * Calculates the logic gate output and caches it
-     * in this.val
+     * in this.outputs
      */
     calc() {
         throw new Error("Cannot calc using abstract LogicGate.calc()");
@@ -438,6 +467,7 @@ class NAND extends Abstract {
             b = this.inputWires[1].getState();
 
         this.outputs[0] = ~(a & b);
+        console.log(this.outputs);
     }
 
     /**

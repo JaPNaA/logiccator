@@ -85,27 +85,33 @@ class Circuit {
         output.setIn(outputWire, 0);
         outputWire.setIn(tgate, 0);
 
+        output.backProp();
+        
         input0.setInput(0);
         input1.setInput(0);
-        output.backProp();
+        input0.forwardProp();
+        input1.forwardProp();
         console.log(output.getState());
 
 
         input0.setInput(1);
         input1.setInput(0);
-        output.backProp();
+        input0.forwardProp();
+        input1.forwardProp();
         console.log(output.getState());
 
 
         input0.setInput(0);
         input1.setInput(1);
-        output.backProp();
+        input0.forwardProp();
+        input1.forwardProp();
         console.log(output.getState());
 
 
         input0.setInput(1);
         input1.setInput(1);
-        output.backProp();
+        input0.forwardProp();
+        input1.forwardProp();
         console.log(output.getState());
 
         console.log(this);
