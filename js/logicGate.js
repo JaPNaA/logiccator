@@ -47,6 +47,12 @@ class Abstract extends Thing {
          */
         this.inputLength = 0;
 
+        /**
+         * Color of gate
+         * @type {String}
+         */
+        this.color = "#ff0000";
+
         this.connectionLocationIsDynamic = false;
     }
 
@@ -192,8 +198,8 @@ class Abstract extends Thing {
      * @param {CanvasRenderingContext2D} X drawing context
      */
     predraw(X) {
-        X.fillStyle = "#ff0000";
-        X.strokeStyle = "#ff0000";
+        X.fillStyle = this.color;
+        X.strokeStyle = this.color;
         X.font = "16px Arial";
         X.textAlign = "center";
         X.textBaseline = "middle";
