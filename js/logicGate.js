@@ -68,7 +68,7 @@ class Abstract extends Thing {
     setIn(wire, index) {
         // wire.setOut(this, index);
         this.inputWires[index] = wire;
-        
+
         wire.gateOut = this;
         wire.gateOutIndex = index;
         wire.validate();
@@ -132,7 +132,7 @@ class Abstract extends Thing {
         } else {
             for (var i = 0; i < this.outputLength; i++) {
                 this.outputWires[i].forwardProp();
-            }        
+            }
         }
     }
 
@@ -178,14 +178,14 @@ class Abstract extends Thing {
             ];
         } else {
             let offx = this.width / 2;
-    
+
             if (this.outputLength === 1) {
                 this.outputLocationOffset[index] = [offx, 0];
                 return [this.x + offx, this.y];
             } else {
                 let offy = this.height / (this.outputLength - 1) * index - this.height / 2;
                 offy *= 0.5;
-    
+
                 this.outputLocationOffset[index] = [offx, offy];
                 return [offx, this.y + offy];
             }
@@ -206,14 +206,14 @@ class Abstract extends Thing {
             ];
         } else {
             let offx = -this.width / 2;
-    
+
             if (this.inputLength === 1) {
                 this.inputLocationOffset[index] = [offx, 0];
                 return [this.x + offx, this.y];
             } else {
                 let offy = this.height / (this.inputLength - 1) * index - this.height / 2;
                 offy *= 0.5;
-    
+
                 this.inputLocationOffset[index] = [offx, offy];
                 return [this.x + offx, this.y + offy];
             }
@@ -468,7 +468,7 @@ class NAND extends Abstract {
 
         let a = this.inputWires[0].getState(),
             b = this.inputWires[1].getState();
-        
+
         console.log(this);
         console.log(a, b);
 

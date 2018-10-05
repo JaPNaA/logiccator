@@ -55,4 +55,4 @@ function wait(milliseconds) {
     });
 }
 
-export { wait }
+export { wait };

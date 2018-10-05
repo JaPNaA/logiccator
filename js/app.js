@@ -8,7 +8,7 @@ class App {
          */
         // @ts-ignore
         this.canvas = document.getElementById("c");
-        
+
         /** 
          * 2D rendering context of this.canvas
          * @type {CanvasRenderingContext2D} 
@@ -129,4 +129,4 @@ class App {
     }
 }
 
-export {App};
+export { App };

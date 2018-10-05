@@ -11,7 +11,7 @@ class InputVertical extends Vertical {
      */
     constructor(circuit, x) {
         super(circuit, x);
-        
+
         this.value = 0;
 
         this.circuit.inputs.push(this);
@@ -55,9 +55,9 @@ class InputVertical extends Vertical {
         }
 
         let [x, y] = from.getInPos(null, index);
-        
+
         x = this.x;
-        
+
         return [x, y];
     }
 }

@@ -76,7 +76,7 @@ class Comment extends Thing {
         this.elm.innerText = this._text;
 
         this.elm.classList.add("comment");
-        
+
         this.showElm(this.elmIsVisible);
         this.setElmPos(this.x + 16, this.y - 6);
         document.body.appendChild(this.elm);

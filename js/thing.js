@@ -130,4 +130,4 @@ class Thing {
      */
     onmouseup(e) { }
 }
-export {Thing};
+export { Thing };

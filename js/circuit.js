@@ -87,10 +87,10 @@ class Circuit {
         outputWire.setIn(tgate, 0);
 
         output.backProp();
-        
+
         this.app.animating = true;
         const that = this;
-        (async function() {
+        (async function () {
             // await wait(1000);
 
             // input0.setInput(0);
@@ -105,7 +105,7 @@ class Circuit {
             // input1.setInput(0);
             // output.backProp();
             // console.log(output.getState());
-            
+
 
             // await wait(1000);
 
@@ -138,7 +138,7 @@ class Circuit {
             // console.log(output.getState());
 
             // await wait(1000);
-    
+
             input0.setInput(1);
             input1.setInput(1);
             input0.forwardProp();

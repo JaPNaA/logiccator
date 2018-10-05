@@ -78,4 +78,4 @@ class Vertical extends gate.Constant {
     }
 }
 
-export {Vertical};
+export { Vertical };
