@@ -19,7 +19,7 @@ function aabbCollisionTest(x1, y1, w1, h1, x2, y2, w2, h2) {
     );
 }
 
-export { pointInRectCheck };
+export { aabbCollisionTest };
 
 /**
  * Check if point is in rectangle
@@ -40,4 +40,19 @@ function pointInRectCheck(x1, y1, x2, y2, h2, w2) {
     );
 }
 
-export { aabbCollisionTest };
+export { pointInRectCheck };
+
+/**
+ * returns a promise that resolves after milliseconds
+ * @param {Number} milliseconds milliseconds to wait
+ * @return {Promise} resolves after milliseconds
+ */
+function wait(milliseconds) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve();
+        }, milliseconds);
+    });
+}
+
+export { wait }

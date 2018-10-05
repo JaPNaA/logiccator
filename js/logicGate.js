@@ -115,6 +115,7 @@ class Abstract extends Thing {
                 this.inputWires[i].backProp();
             }
         }
+
         this.calc();
     }
 
@@ -122,8 +123,6 @@ class Abstract extends Thing {
      * Update all outputs recursively
      */
     forwardProp() {
-        console.groupCollapsed(this.constructor.name);
-        console.log(this);
         this.calc();
 
         if (this.outputLength === null) {
@@ -135,7 +134,6 @@ class Abstract extends Thing {
                 this.outputWires[i].forwardProp();
             }        
         }
-        console.groupEnd();
     }
 
     /**
@@ -470,9 +468,11 @@ class NAND extends Abstract {
 
         let a = this.inputWires[0].getState(),
             b = this.inputWires[1].getState();
+        
+        console.log(this);
+        console.log(a, b);
 
         this.outputs[0] = ~(a & b);
-        console.log(this.outputs);
     }
 
     /**

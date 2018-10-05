@@ -5,6 +5,7 @@ import { Wire } from "./wire.js";
 import { InputVertical } from "./inputVertical.js";
 import { Comment } from "./comment.js";
 import { OutputVertical } from "./outputVertical.js";
+import { wait } from "./utils.js";
 
 class Circuit {
     /**
@@ -87,32 +88,74 @@ class Circuit {
 
         output.backProp();
         
-        input0.setInput(0);
-        input1.setInput(0);
-        input0.forwardProp();
-        input1.forwardProp();
-        console.log(output.getState());
+        this.app.animating = true;
+        const that = this;
+        (async function() {
+            // await wait(1000);
 
+            // input0.setInput(0);
+            // input1.setInput(0);
+            // input0.forwardProp();
+            // input1.forwardProp();
+            // console.log(output.getState());
 
-        input0.setInput(1);
-        input1.setInput(0);
-        input0.forwardProp();
-        input1.forwardProp();
-        console.log(output.getState());
+            // await wait(1000);
 
+            // input0.setInput(0);
+            // input1.setInput(0);
+            // output.backProp();
+            // console.log(output.getState());
+            
 
-        input0.setInput(0);
-        input1.setInput(1);
-        input0.forwardProp();
-        input1.forwardProp();
-        console.log(output.getState());
+            // await wait(1000);
 
+            // input0.setInput(1);
+            // input1.setInput(0);
+            // input0.forwardProp();
+            // input1.forwardProp();
+            // console.log(output.getState());
 
-        input0.setInput(1);
-        input1.setInput(1);
-        input0.forwardProp();
-        input1.forwardProp();
-        console.log(output.getState());
+            // await wait(1000);
+
+            // input0.setInput(1);
+            // input1.setInput(0);
+            // output.backProp();
+            // console.log(output.getState());
+
+            // await wait(1000);
+
+            // input0.setInput(0);
+            // input1.setInput(1);
+            // input0.forwardProp();
+            // input1.forwardProp();
+            // console.log(output.getState());
+
+            // await wait(1000);
+
+            // input0.setInput(0);
+            // input1.setInput(1);
+            // output.backProp();
+            // console.log(output.getState());
+
+            // await wait(1000);
+    
+            input0.setInput(1);
+            input1.setInput(1);
+            input0.forwardProp();
+            input1.forwardProp();
+            console.log(output.getState());
+
+            await wait(1000);
+
+            input0.setInput(1);
+            input1.setInput(1);
+            output.backProp();
+            console.log(output.getState());
+
+            await wait(1000);
+
+            that.app.animating = false;
+        }());
 
         console.log(this);
 
