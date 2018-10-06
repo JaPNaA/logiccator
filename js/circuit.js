@@ -46,6 +46,9 @@ class Circuit {
         const tgate10 = new gate.NOT(this, 400, 50);
         const tgate11 = new gate.NOT(this, 400, 200);
 
+        const output0 = new OutputVertical(this, 650);
+        const output1 = new OutputVertical(this, 750);
+
         {
             const tgate0 = new gate.NXOR(this, 250, 50);
 
@@ -61,7 +64,7 @@ class Circuit {
             tgate10.setIn(wire2, 0);
             wire2.setIn(tgate0, 0);
         } {
-            const tgate0 = new gate.NAND(this, 250, 200);
+            const tgate0 = new gate.AND(this, 250, 275);
 
             const wire0 = new Wire(this);
             tgate0.setIn(wire0, 0);
@@ -74,101 +77,55 @@ class Circuit {
             const wire2 = new Wire(this);
             tgate11.setIn(wire2, 0);
             wire2.setIn(tgate0, 0);
+
+            {
+                const tgate1 = new gate.NOR(this, 400, 350);
+
+                const wire3 = new Wire(this);
+                tgate1.setIn(wire3, 0);
+                wire3.setIn(tgate0, 0);
+
+                const wire4 = new Wire(this);
+                tgate1.setIn(wire4, 1);
+                wire4.setIn(input0, 0);
+
+                const wire5 = new Wire(this);
+                output0.setIn(wire5, 0);
+                wire5.setIn(tgate1, 0);
+            }
+
+        } {
+            const tgate = new gate.XOR(this, 550, 125);
+    
+            const wire1 = new Wire(this);
+            tgate.setIn(wire1, 1);
+            wire1.setIn(tgate11, 0);
+    
+            const wire2 = new Wire(this);
+            tgate.setIn(wire2, 0);
+            wire2.setIn(tgate10, 0);
+    
+            const comment = new Comment(this, 550, 175);
+            comment.text = "This is a test comment\nthis is a newline test";
+            comment.collapsed = true;
+    
+            const outputWire = new Wire(this);
+            output1.setIn(outputWire, 0);
+            outputWire.setIn(tgate, 0);
         }
 
-        const tgate = new gate.XOR(this, 550, 125);
 
-        const wire1 = new Wire(this);
-        tgate.setIn(wire1, 1);
-        wire1.setIn(tgate11, 0);
+        {
+            const gate = 0;
+        }
 
-        const wire2 = new Wire(this);
-        tgate.setIn(wire2, 0);
-        wire2.setIn(tgate10, 0);
+        input0.setInput(0);
+        input1.setInput(1);
 
-        const comment = new Comment(this, 550, 175);
-        comment.text = "This is a test comment\nthis is a newline test";
-        comment.collapsed = true;
-
-        const outputWire = new Wire(this);
-        const output = new OutputVertical(this, 650);
-        output.setIn(outputWire, 0);
-        outputWire.setIn(tgate, 0);
-
-        output.backProp();
-
-        this.app.animating = true;
-        const that = this;
-        (async function () {
-            // await wait(1000);
-
-            // input0.setInput(0);
-            // input1.setInput(0);
-            // input0.forwardProp();
-            // input1.forwardProp();
-            // console.log(output.getState());
-
-            // await wait(1000);
-
-            // input0.setInput(0);
-            // input1.setInput(0);
-            // output.backProp();
-            // console.log(output.getState());
-
-
-            // await wait(1000);
-
-            // input0.setInput(1);
-            // input1.setInput(0);
-            // input0.forwardProp();
-            // input1.forwardProp();
-            // console.log(output.getState());
-
-            // await wait(1000);
-
-            // input0.setInput(1);
-            // input1.setInput(0);
-            // output.backProp();
-            // console.log(output.getState());
-
-            // await wait(1000);
-
-            // input0.setInput(0);
-            // input1.setInput(1);
-            // input0.forwardProp();
-            // input1.forwardProp();
-            // console.log(output.getState());
-
-            // await wait(1000);
-
-            // input0.setInput(0);
-            // input1.setInput(1);
-            // output.backProp();
-            // console.log(output.getState());
-
-            // await wait(1000);
-
-            input0.setInput(1);
-            input1.setInput(1);
-            input0.forwardProp();
-            input1.forwardProp();
-            console.log(output.getState());
-
-            await wait(1000);
-
-            input0.setInput(1);
-            input1.setInput(1);
-            output.backProp();
-            console.log(output.getState());
-
-            await wait(1000);
-
-            that.app.animating = false;
-        }());
-
+        output0.backProp();
+        output1.backProp();
+        
         console.log(this);
-
-        // this setup represents (a, b) => (!!(a ^ b)) ^ (!!(a & b))
     }
 
     /**

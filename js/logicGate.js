@@ -99,6 +99,7 @@ class Abstract extends Thing {
         for (var i = 0; i < this.inputLength; i++) {
             if (!this.inputWires[i]) return false;
         }
+        console.count("Gates calced");
         return true;
     }
 
@@ -148,7 +149,7 @@ class Abstract extends Thing {
      * Parses the outputs of this.outputs into booleans
      * @return {Boolean[]} state of outputs
      */
-    getState() {
+    getAllStates() {
         /**
          * parsed outputs of this.outputs
          * @type {Boolean[]}
@@ -162,6 +163,15 @@ class Abstract extends Thing {
         }
 
         return parsedOutputs;
+    }
+
+    /**
+     * Parses the outputs of this.outputs into booleans
+     * @param {Number} index of output
+     * @return {Boolean} state of outputs
+     */
+    getState(index) {
+        return Boolean(this.outputs[index] % 2);
     }
 
     /**

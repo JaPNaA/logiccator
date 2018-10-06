@@ -64,7 +64,7 @@ class Vertical extends gate.Constant {
      * @param {CanvasRenderingContext2D} X rendering context
      */
     draw(X) {
-        if (this.outputs[0]) {
+        if (this.getState(0)) {
             X.strokeStyle = "#ff0000";
         } else {
             X.strokeStyle = "#000000";
