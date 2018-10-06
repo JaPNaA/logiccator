@@ -478,9 +478,6 @@ class NAND extends Abstract {
         let a = this.inputWires[0].getState(),
             b = this.inputWires[1].getState();
 
-        console.log(this);
-        console.log(a, b);
-
         this.outputs[0] = ~(a & b);
     }
 
