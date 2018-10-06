@@ -7,7 +7,7 @@ class App {
          * @type {HTMLCanvasElement}
          */
         // @ts-ignore
-        this.canvas = document.getElementById("c");
+        this.canvas = document.createElement("canvas");
 
         /** 
          * 2D rendering context of this.canvas
@@ -37,6 +37,18 @@ class App {
          */
         this.circuit = new Circuit(this);
 
+        /**
+         * Element
+         * @type {HTMLElement}
+         */
+        this.elm = document.createElement("div");
+
+        this.elms = {
+            canvasP: document.createElement("div"),
+            gateBar: document.createElement("div"),
+            sideMenu: document.createElement("div")
+        };
+
         this.mouseX = 0;
         this.mouseY = 0;
 
@@ -44,6 +56,26 @@ class App {
     }
 
     setup() {
+        // setup elements
+        // -----------------------------------------------------------------------------
+        this.canvas.classList.add("canvas");
+        
+        this.elms.canvasP.classList.add("canvasP");
+        this.elms.canvasP.appendChild(this.canvas);
+
+        this.elms.gateBar.classList.add("gateBar");
+        this.elms.gateBar.innerText = "GATEBAR";
+
+        this.elms.sideMenu.classList.add("sideMenu");
+        this.elms.sideMenu.innerText = "SIDEMENU";
+        
+        this.elm.classList.add("main");
+        this.elm.appendChild(this.elms.canvasP);
+        this.elm.appendChild(this.elms.gateBar);
+        this.elm.appendChild(this.elms.sideMenu);
+
+        document.body.appendChild(this.elm);
+
         // register events
         // -----------------------------------------------------------------------------
         addEventListener("resize", this.resizeHandler.bind(this));
@@ -97,8 +129,8 @@ class App {
      * Resizes the canvas (#c) to the max
      */
     resizeHandler() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.width = this.elms.canvasP.clientWidth;
+        this.canvas.height = this.elms.canvasP.clientHeight;
         this.shouldRender = true;
     }
 
