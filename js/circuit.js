@@ -21,7 +21,16 @@ class Circuit {
          */
         this.things = [];
 
+        /**
+         * Inputs of circuit
+         * @type {InputVertical[]}
+         */
         this.inputs = [];
+
+        /**
+         * Outputs of ciruit
+         * @type {OutputVertical[]}
+         */
         this.outputs = [];
 
         this.setup();
@@ -160,6 +169,24 @@ class Circuit {
         console.log(this);
 
         // this setup represents (a, b) => (!!(a ^ b)) ^ (!!(a & b))
+    }
+
+    /**
+     * Runs circuit with inputs
+     * @param {Number[]} inputs inputs to circuit
+     * @returns {Number[]} outputs
+     */
+    run(inputs) {
+        var i, outputs = [];
+        for (i = 0; i < this.inputs.length; i++) {
+            this.inputs[i].setInput(inputs[i]);
+        }
+        // calc cycle start
+        for (i = 0; i < this.outputs.length; i++) {
+            this.outputs[i].backProp();
+            outputs.push(this.outputs[i].getValue(0));
+        }
+        return outputs;
     }
 
     draw() {

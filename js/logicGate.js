@@ -145,7 +145,7 @@ class Abstract extends Thing {
     }
 
     /**
-     * Parses the outputs of this.ouputs into booleans
+     * Parses the outputs of this.outputs into booleans
      * @return {Boolean[]} state of outputs
      */
     getState() {
@@ -162,6 +162,15 @@ class Abstract extends Thing {
         }
 
         return parsedOutputs;
+    }
+
+    /**
+     * Gets the output of index
+     * @param {Number} index output index
+     * @returns {Number} output
+     */
+    getValue(index) {
+        return this.outputs[index];
     }
 
     /**
