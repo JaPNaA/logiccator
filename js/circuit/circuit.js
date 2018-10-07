@@ -1,5 +1,5 @@
 import { Thing } from "./thing.js";
-import { App } from "./app.js";
+import { App } from "../app.js";
 import * as gate from "./logicGate.js";
 import { Wire } from "./wire.js";
 import { InputVertical } from "./inputVertical.js";

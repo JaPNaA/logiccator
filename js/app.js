@@ -1,4 +1,5 @@
-import { Circuit } from "./circuit.js";
+import { Circuit } from "./circuit/circuit.js";
+import { UI } from "./ui/ui.js";
 
 class App {
     constructor() {
