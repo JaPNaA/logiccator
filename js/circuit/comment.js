@@ -79,7 +79,7 @@ class Comment extends Thing {
 
         this.showElm(this.elmIsVisible);
         this.setElmPos(this.x + 16, this.y - 6);
-        this.circuit.app.elms.canvasP.appendChild(this.elm);
+        this.circuit.app.ui.canvasP.appendChild(this.elm);
     }
 
     /**

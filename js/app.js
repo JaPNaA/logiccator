@@ -39,16 +39,16 @@ class App {
         this.circuit = null;
 
         /**
-         * Element
+         * The UI of the app
+         * @type {UI}
+         */
+        this.ui = null;
+
+        /**
+         * Main element, where everything should be contained
          * @type {HTMLElement}
          */
         this.elm = document.createElement("div");
-
-        this.elms = {
-            canvasP: document.createElement("div"),
-            gateBar: document.createElement("div"),
-            sideMenu: document.createElement("div")
-        };
 
         /**
          * Offset from clientX
@@ -81,26 +81,15 @@ class App {
     setup() {
         // Create objects
         // -----------------------------------------------------------------------------
+        this.ui = new UI(this);
         this.circuit = new Circuit(this);
 
         // setup elements
         // -----------------------------------------------------------------------------
         this.canvas.classList.add("canvas");
         
-        this.elms.canvasP.classList.add("canvasP");
-        this.elms.canvasP.appendChild(this.canvas);
-
-        this.elms.gateBar.classList.add("gateBar");
-        this.elms.gateBar.innerText = "GATEBAR";
-
-        this.elms.sideMenu.classList.add("sideMenu");
-        this.elms.sideMenu.innerText = "SIDEMENU";
-        
         this.elm.classList.add("main");
-        this.elm.appendChild(this.elms.canvasP);
-        this.elm.appendChild(this.elms.gateBar);
-        this.elm.appendChild(this.elms.sideMenu);
-
+        this.ui.appendTo(this.elm);
         document.body.appendChild(this.elm);
 
         // register events
@@ -163,8 +152,8 @@ class App {
      * Resizes the canvas (#c) to the max
      */
     resizeHandler() {
-        this.canvas.width = this.elms.canvasP.clientWidth;
-        this.canvas.height = this.elms.canvasP.clientHeight;
+        this.canvas.width = this.ui.canvasP.clientWidth;
+        this.canvas.height = this.ui.canvasP.clientHeight;
         
         const boundingClientRect = this.canvas.getBoundingClientRect();
         this.mouseOffsetX = boundingClientRect.left;
