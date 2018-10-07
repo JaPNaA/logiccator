@@ -9,7 +9,7 @@ import { wait } from "./utils.js";
 
 class Circuit {
     /**
-     * circuit constructor
+     * Circuit constructor (setup not called in constructor)
      * @param {App} app circuit parent
      */
     constructor(app) {
@@ -44,8 +44,6 @@ class Circuit {
          * @type {Boolean}
          */
         this.useCalcId = false;
-
-        this.setup();
     }
 
     setup() {

@@ -1,8 +1,11 @@
 import { App } from "../app.js";
+import { GateBar } from "./gateBar.js";
+import { SideMenu } from "./sideMenu.js";
+import { InputController } from "./inputController.js";
 
 class UI {
     /**
-     * UI constructor
+     * UI constructor (setup not called in constructor)
      * @param {App} app parent app
      */
     constructor(app) {
@@ -21,31 +24,32 @@ class UI {
 
         /**
          * An element containing a list of gates
-         * @type {HTMLDivElement}
+         * @type {GateBar}
          */
-        this.gateBar = document.createElement("div");
+        this.gateBar = null;
 
         /**
          * An element containing widgets, properties, and controls
          * for the circuit
-         * @type {HTMLDivElement}
+         * @type {SideMenu}
          */
-        this.sideMenu = document.createElement("div");
-
-        this.setup();
+        this.sideMenu = null;
     }
 
     setup() {
+        // create objects
+        // -----------------------------------------------------------------------------
+        this.gateBar = new GateBar(this);
+        this.sideMenu = new SideMenu(this);
+
         // setup elements
         // -----------------------------------------------------------------------------
         this.canvasP.classList.add("canvasP");
         this.canvasP.appendChild(this.app.canvas);
 
-        this.gateBar.classList.add("gateBar");
-        this.gateBar.innerText = "GATEBAR";
-
-        this.sideMenu.classList.add("sideMenu");
-        this.sideMenu.innerText = "SIDEMENU";
+        //* temp
+        const inputController = new InputController(this);
+        this.sideMenu.append(inputController);
     }
 
     /**
@@ -54,8 +58,8 @@ class UI {
      */
     appendTo(elm) {
         elm.appendChild(this.canvasP);
-        elm.appendChild(this.gateBar);
-        elm.appendChild(this.sideMenu);
+        this.gateBar.appendTo(elm);
+        this.sideMenu.appendTo(elm);
     }
 }
 

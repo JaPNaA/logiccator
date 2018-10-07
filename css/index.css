@@ -51,14 +51,21 @@ body {
     background-color: #ffffff;
 
     position: relative;
+    box-shadow: inset 4px -2px 20px #00000059, inset 2px -1px 8px #00000038;
 }
 
 .gateBar {
     grid-area: gateBar;
-    background-color: #ccffcc;
+    background-color: #ffd6db;
+    
+    border-top: 1px solid #bd0101;
+    padding: 8px;
 }
 
 .sideMenu {
     grid-area: sideMenu;
-    background-color: #ccccff;
+    background-color: #d6e7ff;
+
+    border-right: 1px solid #000272;
+    padding: 8px;
 }

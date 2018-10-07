@@ -84,10 +84,13 @@ class App {
         this.ui = new UI(this);
         this.circuit = new Circuit(this);
 
+        this.ui.setup();
+        this.circuit.setup();
+
         // setup elements
         // -----------------------------------------------------------------------------
         this.canvas.classList.add("canvas");
-        
+
         this.elm.classList.add("main");
         this.ui.appendTo(this.elm);
         document.body.appendChild(this.elm);
@@ -112,13 +115,8 @@ class App {
         if (!this.shouldRender && !this.animating) return;
         this.shouldRender = false;
 
-        /**
-         * this.X alias
-         */
-        const X = this.X;
-
         // clear canvas
-        X.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.X.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // draw
         this.circuit.draw();
