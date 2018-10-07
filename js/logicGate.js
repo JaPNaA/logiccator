@@ -55,8 +55,15 @@ class Abstract extends Thing {
 
         /**
          * do the connection locations change?
+         * @type {Boolean}
          */
         this.connectionLocationIsDynamic = false;
+
+        /**
+         * Last calc's calcId
+         * @type {Symbol}
+         */
+        this.calcedId = null;
     }
 
     /**
@@ -99,7 +106,6 @@ class Abstract extends Thing {
         for (var i = 0; i < this.inputLength; i++) {
             if (!this.inputWires[i]) return false;
         }
-        console.count("Gates calced");
         return true;
     }
 
@@ -135,6 +141,26 @@ class Abstract extends Thing {
                 this.outputWires[i].forwardProp();
             }
         }
+    }
+
+    /**
+     * Runs pre-calc operations: validate, update calcId
+     * @returns {Boolean} continue calc?
+     */
+    precalc() {
+        if (this.circuit.useCalcId && this.calcedId === this.circuit.calcId) {
+            console.log(this, "blocked from running");
+            return false;
+        } else {
+            this.calcedId = this.circuit.calcId;
+        }
+
+        if (!this.validate()) {
+            throw new Error("Invalid inputs to gate");
+        }
+
+        console.count("Gates calced");
+        return true;
     }
 
     /**
@@ -286,11 +312,9 @@ class Constant extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            this.outputs[0] = this.value;
         }
-
-        this.outputs[0] = this.value;
     }
 }
 
@@ -334,14 +358,12 @@ class AND extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = a & b;
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = a & b;
     }
 
     /**
@@ -371,14 +393,12 @@ class OR extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = a | b;
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = a | b;
     }
 
     /**
@@ -408,14 +428,12 @@ class XOR extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = a ^ b;
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = a ^ b;
     }
 
     /**
@@ -445,13 +463,11 @@ class NOT extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState();
+
+            this.outputs[0] = ~a;
         }
-
-        let a = this.inputWires[0].getState();
-
-        this.outputs[0] = ~a;
     }
 
     /**
@@ -481,14 +497,12 @@ class NAND extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = ~(a & b);
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = ~(a & b);
     }
 
     /**
@@ -518,14 +532,12 @@ class NOR extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = ~(a | b);
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = ~(a | b);
     }
 
     /**
@@ -555,14 +567,12 @@ class NXOR extends Abstract {
     }
 
     calc() {
-        if (!this.validate()) {
-            throw new Error("Invalid inputs to gate");
+        if (this.precalc()) {
+            let a = this.inputWires[0].getState(),
+                b = this.inputWires[1].getState();
+
+            this.outputs[0] = ~(a ^ b);
         }
-
-        let a = this.inputWires[0].getState(),
-            b = this.inputWires[1].getState();
-
-        this.outputs[0] = ~(a ^ b);
     }
 
     /**

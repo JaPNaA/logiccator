@@ -79,7 +79,7 @@ class Comment extends Thing {
 
         this.showElm(this.elmIsVisible);
         this.setElmPos(this.x + 16, this.y - 6);
-        document.body.appendChild(this.elm);
+        this.circuit.app.elms.canvasP.appendChild(this.elm);
     }
 
     /**
@@ -131,7 +131,7 @@ class Comment extends Thing {
     onmousedown(e) {
         if (this.hovering) {
             this.collapsed = !this.collapsed;
-            this.circuit.app.shouldRender = true;
+            this.circuit.app.requestRender();
         }
     }
 
@@ -140,14 +140,15 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmousemove(e) {
-        this.hovering = pointInRectCheck(e.clientX, e.clientY,
+        const app = this.circuit.app;
+        this.hovering = pointInRectCheck(app.mouseX, app.mouseY,
             this.x - this.hitboxWidth / 2,
             this.y - this.hitboxHeight / 2,
             this.hitboxWidth, this.hitboxHeight
         );
 
         if (this.hovering !== this.wasHovering) {
-            this.circuit.app.shouldRender = true;
+            this.circuit.app.requestRender();
         }
         this.wasHovering = this.hovering;
     }

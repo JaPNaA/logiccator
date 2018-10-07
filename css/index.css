@@ -49,6 +49,8 @@ body {
 .canvasP {
     grid-area: canvasP;
     background-color: #ffffff;
+
+    position: relative;
 }
 
 .gateBar {

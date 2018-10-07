@@ -33,6 +33,18 @@ class Circuit {
          */
         this.outputs = [];
 
+        /**
+         * Prevents gates from being calced twice for no reason
+         * @type {Symbol}
+         */
+        this.calcId = null;
+
+        /**
+         * Is using calcId?
+         * @type {Boolean}
+         */
+        this.useCalcId = false;
+
         this.setup();
     }
 
@@ -115,17 +127,41 @@ class Circuit {
         }
 
 
-        {
-            const gate = 0;
-        }
-
-        input0.setInput(0);
-        input1.setInput(1);
-
+        this.calcCycle();
         output0.backProp();
         output1.backProp();
         
+        input0.setInput(0);
+        input1.setInput(1);
+        
+        this.calcCycle();
+        input0.forwardProp();
+        this.calcCycle();
+        input1.forwardProp();
+
+        this.app.requestRender();
+
+        // input0.setInput(0);
+        // input1.setInput(1);
+
+        // this.calcCycle();
+        // output0.backProp();
+        // output1.backProp();
+
+        
         console.log(this);
+    }
+
+    /**
+     * Starts calc cycle, makes sure no gates get calculated 
+     * twice for no reason by updating the calcId. 
+     * 
+     * The calcId is then checked for every calc to make sure
+     * that it has't already been calced during the calcCycle.
+     */
+    calcCycle() {
+        this.useCalcId = true;
+        this.calcId = Symbol(); // symbol always creates a unique identifier
     }
 
     /**
@@ -138,7 +174,8 @@ class Circuit {
         for (i = 0; i < this.inputs.length; i++) {
             this.inputs[i].setInput(inputs[i]);
         }
-        // calc cycle start
+
+        this.calcCycle();
         for (i = 0; i < this.outputs.length; i++) {
             this.outputs[i].backProp();
             outputs.push(this.outputs[i].getValue(0));

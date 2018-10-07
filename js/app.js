@@ -35,7 +35,7 @@ class App {
          * outputs, and comments.
          * @type {Circuit}
          */
-        this.circuit = new Circuit(this);
+        this.circuit = null;
 
         /**
          * Element
@@ -49,13 +49,39 @@ class App {
             sideMenu: document.createElement("div")
         };
 
+        /**
+         * Offset from clientX
+         * @type {Number}
+         */
+        this.mouseOffsetX = 0;
+
+        /**
+         * Offset from clientY
+         * @type {Number}
+         */
+        this.mouseOffsetY = 0;
+
+
+        /**
+         * Mouse position x
+         * @type {Number}
+         */
         this.mouseX = 0;
+
+        /**
+         * Mouse position y
+         * @type {Number}
+         */
         this.mouseY = 0;
 
         this.setup();
     }
 
     setup() {
+        // Create objects
+        // -----------------------------------------------------------------------------
+        this.circuit = new Circuit(this);
+
         // setup elements
         // -----------------------------------------------------------------------------
         this.canvas.classList.add("canvas");
@@ -111,6 +137,13 @@ class App {
     }
 
     /**
+     * Requests app to render on reqestAnimationFrame
+     */
+    requestRender() {
+        this.shouldRender = true;
+    }
+
+    /**
      * Wrapper around this.render(), which calls itself 
      * to prevent memory leaks (hopefully)
      */
@@ -131,7 +164,12 @@ class App {
     resizeHandler() {
         this.canvas.width = this.elms.canvasP.clientWidth;
         this.canvas.height = this.elms.canvasP.clientHeight;
-        this.shouldRender = true;
+        
+        const boundingClientRect = this.canvas.getBoundingClientRect();
+        this.mouseOffsetX = boundingClientRect.left;
+        this.mouseOffsetY = boundingClientRect.top;
+
+        this.requestRender();
     }
 
     /**
@@ -139,8 +177,8 @@ class App {
      * @param {MouseEvent} e event information
      */
     mousemoveHandler(e) {
-        this.mouseX = e.clientX;
-        this.mouseY = e.clientY;
+        this.mouseX = e.clientX - this.mouseOffsetX;
+        this.mouseY = e.clientY - this.mouseOffsetY;
         this.circuit.onmousemove(e);
     }
 
