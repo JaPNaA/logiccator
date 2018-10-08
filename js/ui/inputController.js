@@ -38,6 +38,7 @@ class InputController extends Widget {
         circuit.calcCycle();
         targetInput.setInput(~targetInput.getValue(0));
         targetInput.forwardProp();
+        this.ui.updateWidgets();
 
         this.ui.app.requestRender();
     }

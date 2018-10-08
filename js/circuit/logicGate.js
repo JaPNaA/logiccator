@@ -149,7 +149,6 @@ class Abstract extends Thing {
      */
     precalc() {
         if (this.circuit.useCalcId && this.calcedId === this.circuit.calcId) {
-            console.log(this, "blocked from running");
             return false;
         } else {
             this.calcedId = this.circuit.calcId;
@@ -158,8 +157,7 @@ class Abstract extends Thing {
         if (!this.validate()) {
             throw new Error("Invalid inputs to gate");
         }
-
-        console.count("Gates calced");
+        
         return true;
     }
 
