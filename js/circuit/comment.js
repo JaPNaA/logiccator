@@ -20,6 +20,9 @@ class Comment extends Thing {
         this.hitboxWidth = 12;
         this.hitboxHeight = 12;
 
+        this.elementOffsetX = 16;
+        this.elementOffsetY = -6;
+
         /**
          * Comment text
          * @type {String}
@@ -89,7 +92,7 @@ class Comment extends Thing {
         this.elm.classList.add("comment");
 
         this.showElm(this.elmIsVisible);
-        this.setElmPos(this.x + 16, this.y - 6);
+        this.updateElmPos();
         this.circuit.app.ui.canvasP.appendChild(this.elm);
 
         // add event listeners
@@ -108,6 +111,7 @@ class Comment extends Thing {
         if (e) {
             if (!this.elmIsVisible) {
                 this.elm.classList.remove("hidden");
+                this.updateElmPos();
             }
         } else {
             if (this.elmIsVisible) {
@@ -117,6 +121,21 @@ class Comment extends Thing {
         this.elmIsVisible = e;
     }
 
+    /**
+     * Updates element position
+     */
+    updateElmPos() {
+        this.setElmPos(
+            this.x + this.elementOffsetX + this.circuit.camera.x, 
+            this.y + this.elementOffsetY + this.circuit.camera.y
+        );
+    }
+
+    /**
+     * Sets element position according to the DOM
+     * @param {Number} x position
+     * @param {Number} y position
+     */
     setElmPos(x, y) {
         this.elm.style.left = x + "px";
         this.elm.style.top = y + "px";
@@ -163,8 +182,8 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmousemove(e) {
-        const app = this.circuit.app;
-        this.hovering = pointInRectCheck(app.mouseX, app.mouseY,
+        this.hovering = pointInRectCheck(
+            this.circuit.mouseX, this.circuit.mouseY,
             this.x - this.hitboxWidth / 2,
             this.y - this.hitboxHeight / 2,
             this.hitboxWidth, this.hitboxHeight

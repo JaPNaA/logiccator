@@ -59,6 +59,18 @@ class Circuit {
         this.ready = false;
 
         /**
+         * Mouse position X adjusted to camera
+         * @type {Number}
+         */
+        this.mouseX = 0;
+
+        /**
+         * Mouse position Y adjusted to camera
+         * @type {Number}
+         */
+        this.mouseY = 0;
+
+        /**
          * Events
          */
         this.events = {
@@ -83,6 +95,8 @@ class Circuit {
     }
 
     setup() {
+        this.camera = new Camera(this);
+
         //* temp
         {
             // START TEMP
@@ -191,9 +205,6 @@ class Circuit {
         }
 
         this.ready = true;
-
-        this.camera = new Camera(this);
-
         this.app.ui.updateStructWidgets();
     }
 
@@ -257,6 +268,14 @@ class Circuit {
     }
 
     /**
+     * Updates this.mouseX and this.mouseY
+     */
+    updateMousePosition() {
+        this.mouseX = this.app.mouseX - this.camera.x;
+        this.mouseY = this.app.mouseY - this.camera.y;
+    }
+
+    /**
      * Mousemove event handler
      * @param {MouseEvent} e event information
      */
@@ -264,6 +283,8 @@ class Circuit {
         for (let handler of this.events.mousemove) {
             handler(e);
         }
+
+        this.updateMousePosition();
     }
 
     /**
@@ -274,6 +295,8 @@ class Circuit {
         for (let handler of this.events.mousedown) {
             handler(e);
         }
+
+        this.updateMousePosition();
     }
 
     /**
@@ -284,6 +307,8 @@ class Circuit {
         for (let handler of this.events.mouseup) {
             handler(e);
         }
+
+        this.updateMousePosition();
     }
 }
 
