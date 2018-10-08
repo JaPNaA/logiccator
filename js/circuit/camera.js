@@ -35,6 +35,24 @@ class Camera {
          * @type {Number}
          */
         this.scale = 0;
+
+        /**
+         * Is the user manipulating the camera with mouse?
+         * @type {Boolean}
+         */
+        this.userActive = false;
+
+        this.setup();
+    }
+
+    setup() {
+        this.onmousemove = this.onmousemove.bind(this);
+        this.onmousedown = this.onmousedown.bind(this);
+        this.onmouseup = this.onmouseup.bind(this);
+        
+        this.circuit.addEventListener("mousemove", this.onmousemove);
+        this.circuit.addEventListener("mousedown", this.onmousedown);
+        this.circuit.addEventListener("mouseup", this.onmouseup);
     }
 
     /**
@@ -84,6 +102,32 @@ class Camera {
     resetTransform(X) {
         // @ts-ignore
         X.resetTransform();
+    }
+
+    /**
+     * Mousemove handler
+     * @param {MouseEvent} e event data
+     */
+    onmousemove(e) {
+        if (!this.userActive) return;
+        this.x += e.movementX;
+        this.y += e.movementY;
+    }
+
+    /**
+     * Mousedown handler
+     * @param {MouseEvent} e event data
+     */
+    onmousedown(e) {
+        this.userActive = true;
+    }
+
+    /**
+     * Mouseup handler
+     * @param {MouseEvent} e event data
+     */
+    onmouseup(e) {
+        this.userActive = false;
     }
 }
 

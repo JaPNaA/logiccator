@@ -56,7 +56,7 @@ class Comment extends Thing {
          */
         this.elmIsVisible = true;
 
-        this.setupElement();
+        this.setup();
     }
 
     set text(e) {
@@ -70,10 +70,20 @@ class Comment extends Thing {
 
     deconstructor() {
         this._deconstructor();
+
+        // remove element
+        // -----------------------------------------------------------------------------
         this.elm.parentElement.removeChild(this.elm);
+
+        // remove event listeners
+        // -----------------------------------------------------------------------------
+        this.circuit.removeEventListener("mousedown", this.onmousedown);
+        this.circuit.removeEventListener("mousemove", this.onmousemove);
     }
 
-    setupElement() {
+    setup() {
+        // setup element
+        // -----------------------------------------------------------------------------
         this.elm.innerText = this._text;
 
         this.elm.classList.add("comment");
@@ -81,6 +91,13 @@ class Comment extends Thing {
         this.showElm(this.elmIsVisible);
         this.setElmPos(this.x + 16, this.y - 6);
         this.circuit.app.ui.canvasP.appendChild(this.elm);
+
+        // add event listeners
+        // -----------------------------------------------------------------------------
+        this.onmousedown = this.onmousedown.bind(this);
+        this.onmousemove = this.onmousemove.bind(this);
+        this.circuit.addEventListener("mousedown", this.onmousedown);
+        this.circuit.addEventListener("mousemove", this.onmousemove);
     }
 
     /**
