@@ -44,11 +44,18 @@ class Circuit {
          * @type {Boolean}
          */
         this.useCalcId = false;
+
+        /**
+         * Is this circuit is ready for user input?
+         * @type {Boolean}
+         */
+        this.ready = false;
     }
 
     setup() {
         //* temp
-
+        // START TEMP
+        // -----------------------------------------------------------------------------
         const input0 = new InputVertical(this, 50);
 
         const input1 = new InputVertical(this, 150);
@@ -145,9 +152,14 @@ class Circuit {
         // this.calcCycle();
         // output0.backProp();
         // output1.backProp();
-
         
         console.log(this);
+
+        // END TEMP
+        // -----------------------------------------------------------------------------
+        this.ready = true;
+
+        this.app.ui.updateStructWidgets();
     }
 
     /**
@@ -178,6 +190,8 @@ class Circuit {
             this.outputs[i].backProp();
             outputs.push(this.outputs[i].getValue(0));
         }
+
+        this.app.ui.updateWidgets();
         return outputs;
     }
 

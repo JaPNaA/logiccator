@@ -2,6 +2,7 @@ import { App } from "../app.js";
 import { GateBar } from "./gateBar.js";
 import { SideMenu } from "./sideMenu.js";
 import { InputController } from "./inputController.js";
+import { Widget } from "./widget.js";
 
 class UI {
     /**
@@ -34,6 +35,12 @@ class UI {
          * @type {SideMenu}
          */
         this.sideMenu = null;
+
+        /**
+         * All widgets
+         * @type {Widget[]}
+         */
+        this.widgets = [];
     }
 
     setup() {
@@ -60,6 +67,30 @@ class UI {
         elm.appendChild(this.canvasP);
         this.gateBar.appendTo(elm);
         this.sideMenu.appendTo(elm);
+    }
+
+    /**
+     * Called when any part of circuit changes
+     */
+    updateWidgets() {
+        console.log("update");
+        for (const widget of this.widgets) {
+            widget.update();
+        }
+    }
+
+    /**
+     * Called when stucture of circuit changes, also calls 
+     * this.updateWidgets() automatically
+     */
+    updateStructWidgets() {
+        console.log("updateStruct");
+        
+        for (const widget of this.widgets) {
+            widget.updateStruct();
+        }
+
+        this.updateWidgets();
     }
 }
 

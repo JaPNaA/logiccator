@@ -57,6 +57,12 @@ class Thing {
          */
         this.inputLocationOffset = [];
 
+        // setup
+        // -----------------------------------------------------------------------------
+        if (this.circuit.ready) {
+            this.circuit.app.ui.updateStructWidgets();
+        }
+
         this.circuit.things.push(this);
     }
 

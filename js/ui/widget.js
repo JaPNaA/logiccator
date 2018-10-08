@@ -18,6 +18,8 @@ class Widget {
          */
         this.elm = document.createElement("div");
         this.elm.classList.add("widget");
+
+        this.ui.widgets.push(this);
     }
 
     /**
@@ -35,6 +37,16 @@ class Widget {
     append(widget) {
         widget.appendTo(this.elm);
     }
+
+    /**
+     * Called when structure of circuit changes
+     */
+    updateStruct() { }
+
+    /**
+     * Called when any part of circuit changes
+     */
+    update() { }
 }
 
 export { Widget };
