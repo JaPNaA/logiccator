@@ -2,6 +2,7 @@ import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
 import * as gate from "./logicGate.js";
 import { Wire } from "./wire.js";
+import { Camera } from "./camera.js";
 
 class Vertical extends gate.Constant {
     /**
@@ -13,6 +14,7 @@ class Vertical extends gate.Constant {
         super(circuit, x, 0);
 
         this.connectionLocationIsDynamic = true;
+        this.fixedPositionY = true;
 
         this.inputLength = null;
         this.outputLength = null;
@@ -62,8 +64,11 @@ class Vertical extends gate.Constant {
     /**
      * draw vertical
      * @param {CanvasRenderingContext2D} X rendering context
+     * @param {Camera} camera camera
      */
-    draw(X) {
+    draw(X, camera) {
+        camera.transformTo(X, this);
+
         if (this.getState(0)) {
             X.strokeStyle = "#ff0000";
         } else {
@@ -75,6 +80,8 @@ class Vertical extends gate.Constant {
         X.lineTo(this.x, this.circuit.app.canvas.height);
         X.lineWidth = this.width;
         X.stroke();
+
+        camera.resetTransform(X);
     }
 }
 

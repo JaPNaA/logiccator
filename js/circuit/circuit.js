@@ -6,6 +6,7 @@ import { InputVertical } from "./inputVertical.js";
 import { Comment } from "./comment.js";
 import { OutputVertical } from "./outputVertical.js";
 import { wait } from "./utils.js";
+import { Camera } from "./camera.js";
 
 class Circuit {
     /**
@@ -44,6 +45,12 @@ class Circuit {
          * @type {Boolean}
          */
         this.useCalcId = false;
+
+        /**
+         * Offsets, scales, etc.
+         * @type {Camera}
+         */
+        this.camera = new Camera(this);
 
         /**
          * Is this circuit is ready for user input?
@@ -198,7 +205,7 @@ class Circuit {
     draw() {
         // console.log("draw");
         for (let thing of this.things) {
-            thing.draw(this.app.X);
+            thing.draw(this.app.X, this.camera);
         }
     }
 
@@ -210,6 +217,10 @@ class Circuit {
         for (let thing of this.things) {
             thing.onmousemove(e);
         }
+
+        //* temp
+        this.camera.x += e.movementX;
+        this.camera.y += e.movementY;
     }
 
     /**

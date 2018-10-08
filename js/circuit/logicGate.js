@@ -1,6 +1,7 @@
 import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
 import { Wire } from "./wire.js";
+import { Camera } from "./camera.js";
 
 class Abstract extends Thing {
     /**
@@ -52,6 +53,12 @@ class Abstract extends Thing {
          * @type {String}
          */
         this.color = "#ff0000";
+
+        /**
+         * Name of gate
+         * @type {String}
+         */
+        this.name = "Abstract";
 
         /**
          * do the connection locations change?
@@ -157,7 +164,7 @@ class Abstract extends Thing {
         if (!this.validate()) {
             throw new Error("Invalid inputs to gate");
         }
-        
+
         return true;
     }
 
@@ -266,8 +273,11 @@ class Abstract extends Thing {
     /**
      * sets up drawing context for gate
      * @param {CanvasRenderingContext2D} X drawing context
+     * @param {Camera} camera camera
      */
-    predraw(X) {
+    predraw(X, camera) {
+        camera.transformTo(X, this);
+
         X.fillStyle = this.color;
         X.strokeStyle = this.color;
         X.font = "16px Consolas, monospace";
@@ -286,6 +296,26 @@ class Abstract extends Thing {
             X.fill();
             X.fillStyle = "#ffffff";
         }
+    }
+
+    /**
+     * resets drawing context for gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     * @param {Camera} camera camera
+     */
+    postdraw(X, camera) {
+        camera.resetTransform(X);
+    }
+
+    /**
+     * draws gate
+     * @param {CanvasRenderingContext2D} X drawing context
+     * @param {Camera} camera camera
+     */
+    draw(X, camera) {
+        this.predraw(X, camera);
+        X.fillText(this.name, this.x, this.y);
+        this.postdraw(X, camera);
     }
 }
 
@@ -353,6 +383,8 @@ class AND extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "AND";
     }
 
     calc() {
@@ -362,15 +394,6 @@ class AND extends Abstract {
 
             this.outputs[0] = a & b;
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("AND", this.x, this.y);
     }
 }
 
@@ -388,6 +411,8 @@ class OR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "OR";
     }
 
     calc() {
@@ -397,15 +422,6 @@ class OR extends Abstract {
 
             this.outputs[0] = a | b;
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("OR", this.x, this.y);
     }
 }
 
@@ -423,6 +439,8 @@ class XOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "XOR";
     }
 
     calc() {
@@ -432,15 +450,6 @@ class XOR extends Abstract {
 
             this.outputs[0] = a ^ b;
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("XOR", this.x, this.y);
     }
 }
 
@@ -458,6 +467,8 @@ class NOT extends Abstract {
 
         this.inputLength = 1;
         this.outputLength = 1;
+
+        this.name = "NOT";
     }
 
     calc() {
@@ -466,15 +477,6 @@ class NOT extends Abstract {
 
             this.outputs[0] = ~a;
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("NOT", this.x, this.y);
     }
 }
 
@@ -492,6 +494,8 @@ class NAND extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "NAND";
     }
 
     calc() {
@@ -501,15 +505,6 @@ class NAND extends Abstract {
 
             this.outputs[0] = ~(a & b);
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("NAND", this.x, this.y);
     }
 }
 
@@ -527,6 +522,8 @@ class NOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "NOR";
     }
 
     calc() {
@@ -536,15 +533,6 @@ class NOR extends Abstract {
 
             this.outputs[0] = ~(a | b);
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("NOR", this.x, this.y);
     }
 }
 
@@ -562,6 +550,8 @@ class NXOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
+
+        this.name = "NXOR";
     }
 
     calc() {
@@ -571,15 +561,6 @@ class NXOR extends Abstract {
 
             this.outputs[0] = ~(a ^ b);
         }
-    }
-
-    /**
-     * draw gate
-     * @param {CanvasRenderingContext2D} X drawing context
-     */
-    draw(X) {
-        this.predraw(X);
-        X.fillText("NXOR", this.x, this.y);
     }
 }
 

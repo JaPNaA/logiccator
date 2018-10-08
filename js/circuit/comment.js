@@ -1,6 +1,7 @@
 import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
 import { pointInRectCheck } from "./utils.js";
+import { Camera } from "./camera.js";
 
 class Comment extends Thing {
     /**
@@ -107,8 +108,11 @@ class Comment extends Thing {
     /**
      * Draw comment
      * @param {CanvasRenderingContext2D} X drawing context
+     * @param {Camera} camera camera
      */
-    draw(X) {
+    draw(X, camera) {
+        camera.transformTo(X, this);
+
         X.fillStyle = this.collapsed ? "#44b644" : "#009800";
         X.fillRect(
             this.x - this.width / 2,
@@ -122,6 +126,8 @@ class Comment extends Thing {
         } else {
             this.showElm(false);
         }
+
+        camera.resetTransform(X);
     }
 
     /**

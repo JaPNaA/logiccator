@@ -1,6 +1,7 @@
 import { Abstract } from "./logicGate.js";
 import { Circuit } from "./circuit.js";
 import { Thing } from "./thing.js";
+import { Camera } from "./camera.js";
 
 class Wire extends Thing {
     /**
@@ -49,11 +50,6 @@ class Wire extends Thing {
      */
     setIn(gate, index) {
         return gate.setOut(this, index);
-        // this.gateIn = gate;
-        // this.gateInIndex = index;
-        // this.validate();
-
-        // gate.outputWires[index] = this;
     }
 
     /**
@@ -64,11 +60,6 @@ class Wire extends Thing {
      */
     setOut(gate, index) {
         return gate.setIn(this, index);
-        // this.gateOut = gate;
-        // this.gateOutIndex = index;
-        // this.validate();
-
-        // gate.inputWires[index] = this;
     }
 
     /**
@@ -130,10 +121,13 @@ class Wire extends Thing {
     /**
      * draws the wire
      * @param {CanvasRenderingContext2D} X rendering context
+     * @param {Camera} camera camera
      */
-    draw(X) {
+    draw(X, camera) {
         const [inX, inY] = this.gateIn.getOutPos(this.gateOut, this.gateOutIndex);
         const [outX, outY] = this.gateOut.getInPos(this.gateIn, this.gateOutIndex);
+
+        camera.transformTo(X, this);
 
         X.beginPath();
         X.moveTo(inX, inY);
@@ -141,6 +135,8 @@ class Wire extends Thing {
         X.lineWidth = 2;
         X.strokeStyle = "#000";
         X.stroke();
+
+        camera.resetTransform(X);
     }
 }
 

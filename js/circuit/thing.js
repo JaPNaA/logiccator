@@ -1,4 +1,5 @@
 import { Circuit } from "./circuit.js";
+import { Camera } from "./camera.js";
 
 class Thing {
     /**
@@ -44,6 +45,23 @@ class Thing {
         this.connectionLocationIsDynamic = false;
 
         /**
+         * Is the X position of the thing fixed?
+         * @type {Boolean}
+         */
+        this.fixedPositionX = false;
+
+        /**
+         * Is the Y position of the thing fixed?
+         * @type {Boolean}
+         */
+        this.fixedPositionY = false;
+
+        /**
+         * Is the size of the thing fixed?
+         */
+        this.fixedScale = false;
+
+        /**
          * List of output connections that can be made based on index
          * [[x0, y0], [x1, y1]]
          * @type {Array.<Number[]>}
@@ -80,8 +98,9 @@ class Thing {
     /**
      * draw the thing
      * @param {CanvasRenderingContext2D} X rendering context
+     * @param {Camera} camera camera
      */
-    draw(X) {
+    draw(X, camera) {
         /**
          * Top left x
          * @type {Number}
@@ -94,8 +113,12 @@ class Thing {
          */
         const y = this.y - this.height / 2;
 
+        camera.transformTo(X, this);
+
         X.fillStyle = "#F00"; //* temp
         X.fillRect(x, y, this.width, this.height);
+
+        camera.resetTransform(X);
     }
 
     /**
