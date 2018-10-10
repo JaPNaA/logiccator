@@ -10,6 +10,18 @@ class App {
         // @ts-ignore
         this.canvas = document.createElement("canvas");
 
+        /**
+         * Width of canvas
+         * @type {Number}
+         */
+        this.width = 0;
+
+        /**
+         * Height of canvas
+         * @type {Number}
+         */
+        this.height = 0;
+
         /** 
          * 2D rendering context of this.canvas
          * @type {CanvasRenderingContext2D} 
@@ -150,8 +162,8 @@ class App {
      * Resizes the canvas (#c) to the max
      */
     resizeHandler() {
-        this.canvas.width = this.ui.canvasP.clientWidth;
-        this.canvas.height = this.ui.canvasP.clientHeight;
+        this.width = this.canvas.width = this.ui.canvasP.clientWidth;
+        this.height = this.canvas.height = this.ui.canvasP.clientHeight;
         
         const boundingClientRect = this.canvas.getBoundingClientRect();
         this.mouseOffsetX = boundingClientRect.left;

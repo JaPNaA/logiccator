@@ -99,8 +99,10 @@ class Comment extends Thing {
         // -----------------------------------------------------------------------------
         this.onmousedown = this.onmousedown.bind(this);
         this.onmousemove = this.onmousemove.bind(this);
+        this.onmouseup = this.onmouseup.bind(this);
         this.circuit.addEventListener("mousedown", this.onmousedown);
         this.circuit.addEventListener("mousemove", this.onmousemove);
+        this.circuit.addEventListener("mouseup", this.onmouseup);
     }
 
     /**
@@ -125,10 +127,26 @@ class Comment extends Thing {
      * Updates element position
      */
     updateElmPos() {
-        this.setElmPos(
-            this.x + this.elementOffsetX + this.circuit.camera.x, 
-            this.y + this.elementOffsetY + this.circuit.camera.y
-        );
+        let x = this.x + this.elementOffsetX + this.circuit.camera.x;
+        let y = this.y + this.elementOffsetY + this.circuit.camera.y;
+        let w = this.elm.clientWidth;
+        let h = this.elm.clientHeight;
+
+        let mx = x + w;
+        let my = y + h;
+
+        // Handle offscreen comments
+        // -----------------------------------------------------------------------------
+        if (mx > this.circuit.app.width) {
+            x += -w - this.elementOffsetX * 2;
+        }
+
+        if (my > this.circuit.app.height) {
+            y += -h - this.elementOffsetY * 2;
+        }
+
+
+        this.setElmPos(x, y);
     }
 
     /**
@@ -172,9 +190,18 @@ class Comment extends Thing {
      */
     onmousedown(e) {
         if (this.hovering) {
+            this.active = true;
             this.collapsed = !this.collapsed;
             this.circuit.app.requestRender();
         }
+    }
+
+    /**
+     * Mouseup handler
+     * @param {MouseEvent} e event information
+     */
+    onmouseup(e) {
+        this.active = false;
     }
 
     /**
@@ -189,10 +216,18 @@ class Comment extends Thing {
             this.hitboxWidth, this.hitboxHeight
         );
 
+        // change in hover --> re-render collapsed
         if (this.hovering !== this.wasHovering) {
             this.circuit.app.requestRender();
         }
         this.wasHovering = this.hovering;
+
+        // dragging comment --> close comment
+        if (this.active) {
+            this.collapsed = true;
+            this.hovering = false;
+            this.circuit.app.requestRender();
+        }
     }
 }
 
