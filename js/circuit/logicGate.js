@@ -280,7 +280,7 @@ class Abstract extends Thing {
 
         X.fillStyle = this.color;
         X.strokeStyle = this.color;
-        X.font = "16px Consolas, monospace";
+        X.font = "16px Consolas, 'Courier New', Courier, monospace";
         X.textAlign = "center";
         X.textBaseline = "middle";
 

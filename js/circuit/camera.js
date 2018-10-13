@@ -42,6 +42,17 @@ class Camera {
          */
         this.userActive = false;
 
+        /** 
+         * Events
+         */
+        this.events = {
+            /**
+             * Camera move handlers
+             * @type {Function[]}
+             */
+            move: []
+        };
+
         this.setup();
     }
 
@@ -64,7 +75,7 @@ class Camera {
     }
     set x(e) {
         this._x = e;
-        this.circuit.app.requestRender();
+        this.onmove();
     }
 
     /**
@@ -76,7 +87,29 @@ class Camera {
     }
     set y(e) {
         this._y = e;
-        this.circuit.app.requestRender();
+        this.onmove();
+    }
+
+    /**
+     * Set camera position
+     * @param {Number} x position
+     * @param {Number} y position
+     */
+    set(x, y) {
+        this._x = x;
+        this._y = y;
+        this.onmove();
+    }
+
+    /**
+     * Move camera by
+     * @param {Number} x offset
+     * @param {Number} y offset
+     */
+    moveBy(x, y) {
+        this._x += x;
+        this._y += y;
+        this.onmove();
     }
 
     /**
@@ -110,8 +143,26 @@ class Camera {
      */
     onmousemove(e) {
         if (!this.userActive) return;
-        this.x += e.movementX;
-        this.y += e.movementY;
+        this.moveBy(e.movementX, e.movementY);
+    }
+
+    /**
+     * Adds event listener
+     * @param {"move"} name name of event
+     * @param {Function} handler function to handle event
+     */
+    addEventListener(name, handler) {
+        this.events[name].push(handler);
+    }
+
+    /**
+     * Removes event listener
+     * @param {"move"} name name of event
+     * @param {Function} handler function handling event
+     */
+    removeEventListener(name, handler) {
+        let handlerList = this.events[name];
+        handlerList.splice(handlerList.indexOf(handler), 1);
     }
 
     /**
@@ -128,6 +179,17 @@ class Camera {
      */
     onmouseup(e) {
         this.userActive = false;
+    }
+
+    /**
+     * Move handler
+     */
+    onmove() {
+        for (let handler of this.events.move) {
+            handler();
+        }
+
+        this.circuit.app.requestRender();
     }
 }
 

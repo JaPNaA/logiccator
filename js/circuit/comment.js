@@ -100,9 +100,12 @@ class Comment extends Thing {
         this.onmousedown = this.onmousedown.bind(this);
         this.onmousemove = this.onmousemove.bind(this);
         this.onmouseup = this.onmouseup.bind(this);
+        this.oncameramove = this.oncameramove.bind(this);
+
         this.circuit.addEventListener("mousedown", this.onmousedown);
         this.circuit.addEventListener("mousemove", this.onmousemove);
         this.circuit.addEventListener("mouseup", this.onmouseup);
+        this.circuit.camera.addEventListener("move", this.oncameramove);
     }
 
     /**
@@ -228,6 +231,10 @@ class Comment extends Thing {
             this.hovering = false;
             this.circuit.app.requestRender();
         }
+    }
+
+    oncameramove(e) {
+        console.log("move");
     }
 }
 
