@@ -1,0 +1,20 @@
+{
+  "name": "logiccgator",
+  "version": "1.0.0",
+  "description": "logic gate simulator",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/JaPNaA/logiccgator.git"
+  },
+  "author": "JaPNaA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/JaPNaA/logiccgator/issues"
+  },
+  "homepage": "https://gitlab.com/JaPNaA/logiccgator#README",
+  "private": true
+}
