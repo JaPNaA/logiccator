@@ -1,7 +1,7 @@
 import { App } from "../app.js";
 import { GateBar } from "./gateBar.js";
 import { SideMenu } from "./sideMenu.js";
-import { InputController } from "./inputController.js";
+import { InputController } from "./widgets/inputController.js";
 import { Widget } from "./widget.js";
 
 class UI {

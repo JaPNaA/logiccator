@@ -1,0 +1,24 @@
+.inputController > ul {
+    list-style: none;
+    
+    margin: 0;
+    padding: 0;
+}
+
+.inputController button {
+    border: 0px;
+    padding: 8px 12px;
+    margin: 2px;
+
+    outline: none;
+
+    color: #fff;
+}
+
+.inputController .on {
+    background-color: #f00;
+}
+
+.inputController .off {
+    background-color: #000;
+}

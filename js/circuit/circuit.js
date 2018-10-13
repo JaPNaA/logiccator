@@ -5,7 +5,7 @@ import { Wire } from "./wire.js";
 import { InputVertical } from "./inputVertical.js";
 import { Comment } from "./comment.js";
 import { OutputVertical } from "./outputVertical.js";
-import { wait } from "./utils.js";
+import { wait } from "../utils.js";
 import { Camera } from "./camera.js";
 
 class Circuit {

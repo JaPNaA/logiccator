@@ -56,3 +56,21 @@ function wait(milliseconds) {
 }
 
 export { wait };
+
+
+/**
+ * imports css and applies to document
+ * @param {String} path path of css file
+ * @returns {HTMLLinkElement} css link element generated
+ */
+function importCss(path) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = path;
+
+    document.head.appendChild(link);
+    
+    return link;
+}
+
+export { importCss };

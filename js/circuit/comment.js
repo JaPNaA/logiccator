@@ -1,6 +1,6 @@
 import { Thing } from "./thing.js";
 import { Circuit } from "./circuit.js";
-import { pointInRectCheck } from "./utils.js";
+import { pointInRectCheck } from "../utils.js";
 import { Camera } from "./camera.js";
 
 class Comment extends Thing {

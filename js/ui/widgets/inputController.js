@@ -1,5 +1,6 @@
-import { Widget } from "./widget.js";
-import { UI } from "./ui.js";
+import { Widget } from "../widget.js";
+import { UI } from "../ui.js";
+import { importCss } from "../../utils.js";
 
 class InputController extends Widget {
     /**
@@ -21,11 +22,21 @@ class InputController extends Widget {
          */
         this.$inputs = document.createElement("ul");
 
+        /**
+         * Input buttons of circuit
+         * @type {HTMLButtonElement[]}
+         */
+        this.inputs = [];
+
         this.setup();
     }
 
     setup() {
+        importCss("/css/widgets/inputController.css");
+
         this.$title.innerText = "Input controller";
+
+        this.elm.classList.add("inputController");
 
         this.elm.appendChild(this.$title);
         this.elm.appendChild(this.$inputs);
@@ -43,6 +54,20 @@ class InputController extends Widget {
         this.ui.app.requestRender();
     }
 
+    update() {
+        const circuit = this.ui.app.circuit;
+
+        for (let i = 0; i < circuit.inputs.length; i++) {
+            if (circuit.inputs[i].getState(0)) {
+                this.inputs[i].classList.add("on");
+                this.inputs[i].classList.remove("off");
+            } else {
+                this.inputs[i].classList.remove("on");
+                this.inputs[i].classList.add("off");
+            }
+        }
+    }
+
     updateStruct() {
         const circuit = this.ui.app.circuit;
 
@@ -56,6 +81,7 @@ class InputController extends Widget {
 
             input.appendChild(button);
             this.$inputs.appendChild(input);
+            this.inputs[i] = button;
         }
     }
 }
