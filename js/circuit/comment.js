@@ -36,10 +36,22 @@ class Comment extends Thing {
         this.collapsed = true;
 
         /**
+         * Is comment offscreen?
+         * @type {Boolean}
+         */
+        this.offscreen = false;
+
+        /**
          * Is mouse hovering over comment?
          * @type {Boolean}
          */
         this.hovering = false;
+
+        /**
+         * Has comment been dragged since last mousedown?
+         * @type {Boolean}
+         */
+        this.dragged = false;
 
         /**
          * Was hovering over comment?
@@ -91,8 +103,7 @@ class Comment extends Thing {
 
         this.elm.classList.add("comment");
 
-        this.showElm(this.elmIsVisible);
-        this.updateElmPos();
+        this.showAndUpdateElmPos(this.elmIsVisible);
         this.circuit.app.ui.canvasP.appendChild(this.elm);
 
         // add event listeners
@@ -109,6 +120,24 @@ class Comment extends Thing {
     }
 
     /**
+     * Show/hide element and update element position
+     * @param {Boolean} e show element?
+     */
+    showAndUpdateElmPos(e) {
+        if (e) {
+            if (!this.elmIsVisible) {
+                this.elm.classList.remove("hidden");
+                this.updateElmPos();
+            }
+        } else {
+            if (this.elmIsVisible) {
+                this.elm.classList.add("hidden");
+            }
+        }
+        this.elmIsVisible = e;
+    }
+
+    /**
      * Show/hide element
      * @param {Boolean} e show element?
      */
@@ -116,7 +145,6 @@ class Comment extends Thing {
         if (e) {
             if (!this.elmIsVisible) {
                 this.elm.classList.remove("hidden");
-                this.updateElmPos();
             }
         } else {
             if (this.elmIsVisible) {
@@ -138,7 +166,18 @@ class Comment extends Thing {
         let mx = x + w;
         let my = y + h;
 
-        // Handle offscreen comments
+        // Handle invisible comments
+        // -----------------------------------------------------------------------------
+        if (
+            x > 0 && x < this.circuit.app.width &&
+            y > 0 && y < this.circuit.app.height
+        ) {
+            this.offscreen = false;
+        } else {
+            this.offscreen = true;
+        }
+
+        // Handle visible offscreen element comments
         // -----------------------------------------------------------------------------
         if (mx > this.circuit.app.width) {
             x += -w - this.elementOffsetX * 2;
@@ -147,7 +186,6 @@ class Comment extends Thing {
         if (my > this.circuit.app.height) {
             y += -h - this.elementOffsetY * 2;
         }
-
 
         this.setElmPos(x, y);
     }
@@ -178,10 +216,10 @@ class Comment extends Thing {
             this.height
         );
 
-        if (!this.collapsed || this.hovering) {
-            this.showElm(true);
+        if ((!this.collapsed || this.hovering) && !this.offscreen) {
+            this.showAndUpdateElmPos(true);
         } else {
-            this.showElm(false);
+            this.showAndUpdateElmPos(false);
         }
 
         camera.resetTransform(X);
@@ -192,10 +230,10 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmousedown(e) {
+        this.dragged = false;
+
         if (this.hovering) {
             this.active = true;
-            this.collapsed = !this.collapsed;
-            this.circuit.app.requestRender();
         }
     }
 
@@ -204,6 +242,11 @@ class Comment extends Thing {
      * @param {MouseEvent} e event information
      */
     onmouseup(e) {
+        if (this.hovering && !this.dragged) {
+            this.collapsed = !this.collapsed;
+            this.circuit.app.requestRender();
+        }
+
         this.active = false;
     }
 
@@ -226,15 +269,22 @@ class Comment extends Thing {
         this.wasHovering = this.hovering;
 
         // dragging comment --> close comment
-        if (this.active) {
+        if (this.active && this.collapsed) {
             this.collapsed = true;
             this.hovering = false;
             this.circuit.app.requestRender();
         }
+
+        if (this.active) {
+            this.dragged = true;
+        }
     }
 
-    oncameramove(e) {
-        console.log("move");
+    /**
+     * Camera move handler
+     */
+    oncameramove() {
+        this.updateElmPos();
     }
 }
 
