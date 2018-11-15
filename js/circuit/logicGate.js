@@ -55,12 +55,6 @@ class Abstract extends Thing {
         this.color = "#ff0000";
 
         /**
-         * Name of gate
-         * @type {String}
-         */
-        this.name = "Abstract";
-
-        /**
          * do the connection locations change?
          * @type {Boolean}
          */
@@ -314,10 +308,13 @@ class Abstract extends Thing {
      */
     draw(X, camera) {
         this.predraw(X, camera);
-        X.fillText(this.name, this.x, this.y);
+        // @ts-ignore
+        X.fillText(this.constructor.gateName, this.x, this.y);
         this.postdraw(X, camera);
     }
 }
+
+Abstract.gateName = "Abstract";
 
 export { Abstract };
 
@@ -346,6 +343,8 @@ class Constant extends Abstract {
     }
 }
 
+Constant.gateName = "Constant";
+
 export { Constant };
 
 //* should not exist here, stays for development purposes
@@ -362,10 +361,14 @@ class Constant1 extends Constant {
     }
 }
 
+Constant1.gateName = "1";
+
 export { Constant1 };
 
 //* should not exist here, stays for development purposes
 class Constant0 extends Abstract { }
+
+Constant0.gateName = "0";
 
 export { Constant0 };
 
@@ -383,8 +386,6 @@ class AND extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "AND";
     }
 
     calc() {
@@ -396,6 +397,8 @@ class AND extends Abstract {
         }
     }
 }
+
+AND.gateName = "AND";
 
 export { AND };
 
@@ -411,8 +414,6 @@ class OR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "OR";
     }
 
     calc() {
@@ -424,6 +425,8 @@ class OR extends Abstract {
         }
     }
 }
+
+OR.gateName = "OR";
 
 export { OR };
 
@@ -439,8 +442,6 @@ class XOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "XOR";
     }
 
     calc() {
@@ -452,6 +453,8 @@ class XOR extends Abstract {
         }
     }
 }
+
+XOR.gateName = "XOR";
 
 export { XOR };
 
@@ -467,8 +470,6 @@ class NOT extends Abstract {
 
         this.inputLength = 1;
         this.outputLength = 1;
-
-        this.name = "NOT";
     }
 
     calc() {
@@ -479,6 +480,8 @@ class NOT extends Abstract {
         }
     }
 }
+
+NOT.gateName = "NOT";
 
 export { NOT };
 
@@ -494,8 +497,6 @@ class NAND extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "NAND";
     }
 
     calc() {
@@ -507,6 +508,8 @@ class NAND extends Abstract {
         }
     }
 }
+
+NAND.gateName = "NAND";
 
 export { NAND };
 
@@ -522,8 +525,6 @@ class NOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "NOR";
     }
 
     calc() {
@@ -535,6 +536,8 @@ class NOR extends Abstract {
         }
     }
 }
+
+NOR.gateName = "NOR";
 
 export { NOR };
 
@@ -550,8 +553,6 @@ class NXOR extends Abstract {
 
         this.inputLength = 2;
         this.outputLength = 1;
-
-        this.name = "NXOR";
     }
 
     calc() {
@@ -563,5 +564,7 @@ class NXOR extends Abstract {
         }
     }
 }
+
+NXOR.gateName = "NXOR";
 
 export { NXOR };

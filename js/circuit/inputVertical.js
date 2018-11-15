@@ -61,4 +61,7 @@ class InputVertical extends Vertical {
         return [x, y];
     }
 }
+
+InputVertical.gateName = "Input";
+
 export { InputVertical };

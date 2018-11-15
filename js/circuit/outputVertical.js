@@ -49,4 +49,7 @@ class OutputVertical extends Vertical {
         return [x, y];
     }
 }
+
+OutputVertical.gateName = "Output";
+
 export { OutputVertical };

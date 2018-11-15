@@ -85,4 +85,6 @@ class Vertical extends gate.Constant {
     }
 }
 
+Vertical.gateName = "Vertical";
+
 export { Vertical };
